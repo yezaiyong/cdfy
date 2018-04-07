@@ -1,0 +1,335 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+ var authcode="${(authcode!'')}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<link rel="stylesheet" type="text/css" href="web/swfupload/Script/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="web/js/fancybox/jquery.fancybox.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/swfupload/Script/jquery.uploadify.js"></script>
+<script type="text/javascript" src="web/js/jquery.smartWizard-2.0.min.js"></script>
+<script src="web/js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.methods.js" type="text/javascript"></script>
+<script src="web/js/main.js" type="text/javascript"></script>
+</head>
+<style>
+label.error{
+	width:100px;
+	height:30px;
+	font-size:12px;
+	color:red;
+	text-align:center;
+	line-height:30px;
+	padding-left:10px;
+	position:absolute;
+	top:-30px;
+	left:10px;
+}
+label.validateError {
+width: auto;
+height: 30px;
+font-size: 12px;
+color: red;
+text-align: center;
+line-height: 25px;
+padding-left: 10px;
+}
+input.error ,select.error,textarea.error{
+	border:1px solid red !important;
+}
+div.erro{
+position:relative;
+width:175px;
+float:left;
+}
+
+</style>
+<script>
+//调用插件必须重写此方法
+function _page_next(){
+	
+};
+//验证输入框必填
+function validateValue(){
+		 if(!$("#names").valid()){
+        		return false;
+        	}
+        	if(!$("#deputyUnitBatch").valid()){
+        		return false;
+        	}
+        	if(!$("#deputyItemName").valid()){
+        		return false;
+        	}
+        	if(!$("#deputyUnitGard").valid()){
+        		return false;
+        	}
+        	if(!$("#deputyUnitType").valid()){
+        		return false;
+        	}
+		};
+$(function(){
+	
+	//  Wizard 1  	
+	$('#wizard1').smartWizard({transitionEffect:'fade',onFinish:onFinishCallback});
+	
+	//  Wizard 2
+	$('#wizard2').smartWizard({transitionEffect:'slide',onFinish:onFinishCallback});
+	function onFinishCallback(){
+		
+	}     
+
+	//申报书
+	$(".shanchu_2").live('click',function(){
+		$(this).parent(".cs2").parent(".cs1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	//申报片
+	$(".shanchu_V").live('click',function(){
+		$(this).parent(".csV2").parent(".csV1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//申报照片
+	$(".shanchu_I").live('click',function(){
+		$(this).parent(".csI2").parent(".csI1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//其他
+	$(".shanchu_O").live('click',function(){
+		$(this).parent(".csO2").parent(".csO1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+})
+</script>
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--头部END-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>新建传承单位</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">新建传承单位
+        </div>
+        <div class="mainbody mb100 w ">
+       <form id="validateForm" action="saveDeputyUnit.do" method="post">
+       <input type="hidden" name="businessType" value=unit />
+    	    <!--tab-->
+       		<div id="wizard2" class="swMain">
+  			<ul>
+            	 <!--切换标签1-->
+  				<li><a href="#step-1">
+                <span class="stepNumber">1</span>
+                <span class="stepDesc">
+                   基本资料<br />
+                   <small>Step 1 description</small>
+                </span>
+            </a></li> <!--切换标签1-END-->
+            	 <!--切换标签2-->
+  				<li><a href="#step-2">
+                <span class="stepNumber">2</span>
+                <span class="stepDesc">
+                   申报书<br />
+                   <small>Step 2 description</small>
+                </span>
+            </a></li> <!--切换标签2-end-->
+            	 <!--切换标签3-->
+  				<li><a href="#step-3">
+                <span class="stepNumber">3</span>
+                <span class="stepDesc">
+                   申报片<br />
+                   <small>Step 3 description</small>
+                </span>                   
+             </a></li> <!--切换标签3-end-->
+             	 <!--切换标签4-->
+  				<li><a href="#step-4">
+                <span class="stepNumber">4</span>
+                <span class="stepDesc">
+                   照片<br />
+                   <small>Step 4 description</small>
+                </span>                   
+            </a></li> <!--切换标签4-end-->
+            	 <!--切换标签5-->
+            <li><a href="#step-5">
+                <span class="stepNumber">5</span>
+                <span class="stepDesc">
+                  其他<br />
+                   <small>Step 5 description</small>
+                </span>                   
+            </a></li> <!--切换标签5-end-->
+  			</ul>
+            
+            <!--页卡1-->
+  			<div id="step-1">	
+            	<div class="main_xx" >
+                                <ul>
+                                    <li><span>传承单位名称：</span><input maxlength="50" id="names" name="deputyUnitName" type="text" validate="{required:true ,messages:{required:'请输入传承单位名称'}}"/></li>
+                                    <li><span>所属项目：</span>
+                                     <select id="deputyItemName" name="deputyItemName" onchange="_search_gard();" style=" width:422px;" validate="{required:true ,messages:{required:'请选择所属项目'}}">
+                                                <option value="">-请选择-</option>
+                                              <@my.list id="data" hql="from DeputyItem s order by s.createDate desc">
+                                                  	<option value="${(data.deputyItemId)!''}">${(data.deputyItemName)!''}</option>
+                                                </@my.list>
+                                          </select>
+                                    </li>
+                                    <li><span>传承单位类型：</span>
+                                     <select id="deputyUnitType" name="deputyUnitType"  style=" width:422px;" validate="{required:true ,messages:{required:'请选择所属类型'}}">
+                                                <option value="">-请选择-</option>
+                                              <@my.list id="data" hql="from DataDict s  where s.type='UNIT_TYPE'" >
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select>
+                                    </li>
+                                    <li><span>级别：</span>
+                                     <select id="deputyUnitGard" name="deputyUnitGard"  style=" width:422px;" validate="{required:true ,messages:{required:'请选择所属类型'}}">
+                                                <option value="">-请选择-</option>
+                                              <@my.list id="data" hql="from DataDict s  where s.type='GARD'" >
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select>
+                                    </li>
+                                     <li><span>申报批次：</span>	
+                                     <select id="deputyUnitBatch" name="deputyUnitBatch" style=" width:422px;" validate="{required:true ,messages:{required:'请选择申报批次'}}">
+                                                <option value="">-请选择-</option>
+                                              <@my.list id="data" hql="from DataDict s where s.type ='BATCH'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select></li>
+                                      <li><span>所在地：</span>
+                                    <select id="itemAddress" name="itemAddress" style=" width:422px;" validate="{required:true ,messages:{required:'请选择所在地'}}">
+                                                <option value="">-请选择-</option>
+                                                 <@my.list id="data" hql="from DataDict s where s.type ='AREA'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select></li>
+                                    <li><span>简介：</span><textarea 
+                                    id="deputyUnitDesc" name="deputyUnitDesc" cols="" rows=""></textarea></li>
+                                </ul>
+                      </div>
+        </div><!--页卡1-end-->
+        
+        	<!--页卡2-->
+  			<div id="step-2">
+           <div class="main_page2" > 		
+                          <ul>
+                           <input type="file" class="cre_input" id="uploadifyfile_icon" name="uploadifyfile_icon"  value="开始上传"/>
+                   			<script type="text/javascript" src="web/js/filesUpload/doc.js"></script>
+                             <div  id="doc" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+                              <div class="tab_content ">
+                               <table width="100%"  id="tab_a">
+                                         <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">保存名称</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                               </table>
+							</div>
+                            </ul>
+                      </div>
+        </div><!--页卡2-end-->      
+        
+        	<!--页卡3-->             
+  			<div id="step-3">
+            <div class="main_page2" > 		
+                          	  <ul>
+                     <input type="file" class="cre_input" id="uploadifyfile_icon1" name="uploadifyfile_icon1"  value="开始上传"/>
+                     <script type="text/javascript" src="web/js/filesUpload/video.js"></script>
+                              <div  id="video" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+                              <div class="tab_content ">
+                               <table width="100%"  id="tab_a" class ="tab_aV">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                       <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">保存名称</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                                        
+                               </table>
+							</div>
+                            </ul>
+                      </div>
+        </div><!--页卡3-end-->
+        
+        <!--页卡4-->
+        <div id="step-4">
+           <div class="main_page2" > 		
+                          	<ul>
+                           <input type="file" class="cre_input" id="uploadifyfile_icon2" name="uploadifyfile_icon2"  value="开始上传"/>
+		                     <script type="text/javascript" src="web/js/filesUpload/img.js"></script>
+		                             <div  id="img" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+		                              <div class="tab_content ">
+		                               <table width="100%"  id="tab_a" class ="tab_aI">
+		                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+		                                       <tr>
+		                                          <th scope="col">文件名</th>
+		                                          <th scope="col">保存名称</th>
+		                                          <th scope="col">状态</th>
+		                                          <th scope="col">操作</th>
+		                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+		                                        
+		                               </table>
+									</div>
+                      </div>
+            </p>                			
+        </div><!--页卡4-end-->
+        
+        <!--页卡5-->
+        <div id="step-5">
+           <div class="main_page2"> 		
+                         <ul>
+                            <input type="file" class="cre_input" id="uploadifyfile_icon3" name="uploadifyfile_icon3"  value="开始上传"/>
+		                     <script type="text/javascript" src="web/js/filesUpload/other.js"></script>
+		                              <div  id="other" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+		                              <div class="tab_content ">
+		                               <table width="100%"  id="tab_a" class ="tab_aO">
+		                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+		                                       <tr>
+		                                          <th scope="col">文件名</th>
+		                                          <th scope="col">保存名称</th>
+		                                          <th scope="col">状态</th>
+		                                          <th scope="col">操作</th>
+		                                        </tr>
+		                               </table>
+									</div>
+                            </ul>
+                             <li class="tc mt20 mb40 w880 fl">
+                                  <input class="cre_input" name="" type="submit" value="提交"/>
+                          </li>
+                      </div>
+            </p>                			
+        </div><!--页卡5-end-->
+     </div><!--tab- end--> 
+     </form>	
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+</html>

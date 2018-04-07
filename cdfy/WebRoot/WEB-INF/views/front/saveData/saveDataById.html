@@ -1,0 +1,60 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--用户-->   
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="saveItemList.do">保存资料项目</a>&gt;<span><@my.list id="name" hql="from SaveItem s where s.itemId='${(itemId!'')}'">${(name.itemName!'')}</@my.list></span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<ul>
+                	<li class="btit">资料</li>
+                	<li><a href="getAudio.do?itemId=${(itemId!'')}">音频</a></li>
+                    <li><a href="getVideoBySaveItem.do?itemId=${(itemId!'')}">视频</a></li>
+                    <li><a href="getImg.do?itemId=${(itemId!'')}">照片</a></li>
+                    <li><a href="getOther.do?itemId=${(itemId!'')}">其他</a></li>
+                </ul>
+                
+        </div><!--左边内容END-->
+        <!--右边内容-->
+         <div class="mainbody_right">
+         	<div class="right_title">项目介绍</div>
+            <div class="right_writer">
+            	<!--项目名称-->
+            	<@my.list id="data" hql="from SaveItem s where s.itemId=${(itemId!'')}">
+            	<b class="writer_title">${(data.itemName!'')}</b>
+                <!--项目名录-->
+                <ul>
+                	<li><span>项目类型：</span><@my.list id="batch" hql="from DataDict s where s.code ='${(data.type!'')}' and s.type ='SAVE_TYPE'">${(batch.name)!''}</@my.list></li>
+                    <li><span>项目批次：</span><@my.list id="batch" hql="from DataDict s where s.code ='${(data.batch!'')}' and s.type ='BATCH'">${(batch.name)!''}</@my.list></li>
+                    <li><span>所在地：</span><@my.list id="batch" hql="from DataDict s where s.code ='${(data.area!'')}' and s.type ='AREA'">${(batch.name)!''}</@my.list></li>
+                </ul>
+               
+                <div class="clearfloat"></div>
+            </div>
+                     </@my.list>
+            
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

@@ -1,0 +1,62 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+<script>
+function download(fileId){
+	location.href="download.do?filesId="+fileId+"";
+}
+</script>
+<body>
+	<!--头部--><#include "../top.html"/><!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="deputyItemList.do">代表性项目</a>&gt;<a href="deputyItemByItemId.do?deputyItemId=${(deputyItemId!'')}"><@my.list id="name" hql="from DeputyItem S WHERE S.deputyItemId ='${(deputyItemId!'')}'">${(name.deputyItemName!'')}</@my.list></a>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        	<#include "../menu.html"/>
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">申报片</div>
+            <div class="right_icon"></div>
+            <div class="right_content">
+            	<div class="video_content">
+            		<ul>
+            		<#assign sql="select * from files cc where cc.file_id in(  select qq.file_id from item_apply ss left join item_apply_files qq on ss.apply_id=qq.appaly_id where ss.deputy_item_id='${(deputyItemId!'')}' and ss.apply_gard='${(applyGard!'')}') and cc.type='video'">
+              		<@my.pager id="page" sql="${sql}" size="${pageSize!10}" page="${pageNo!1}" />
+			  		<#list (page.list)! as t>
+                    	<!--循环实例-->
+                    	<li>
+                        <a href="getVideo.do?fileId=${(t.FILE_ID)}&deputyItemId=${(deputyItemId)!''}"><img width="170" height="140" src="web/images/video_img.png" /><b class="play"></b></a>
+                        <p title="${(t.FILE_NAME!'')}">片名：<@html2Text html=t.FILE_NAME length="8"/></p>
+                        <#if USER.role !="common">
+                        <input type="button"  value="下载" onclick="download(${(t.FILE_ID)});"/>
+                        </#if>
+                        </li><!--循环实例END-->
+           </#list>
+                    </ul></div>
+                       <!--分页--><#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/getFilesVideo.do?pageNo=:pageNo&deputyItemId=${(deputyItemId!'')}"/>
+	               	</#if>   <!--分页END-->
+            </div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

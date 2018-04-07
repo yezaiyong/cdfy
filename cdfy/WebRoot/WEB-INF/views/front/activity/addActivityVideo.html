@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+var authcode="${authcode!''}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/swfupload/Script/jquery.uploadify.js"></script>
+<script type="text/javascript" src="web/js/tab.js"></script>
+</head>
+
+<body>
+<input type="hidden" id="names" value="${(period.proActivities.proActivitiesName)!''}"/>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<a href="show_activityInfo.do?activityId=${(period.proActivities.proActivitiesId)!''}&periodId=${(period.activitiesPeriodId)!''}">${(period.proActivities.proActivitiesName)!''} ${(period.activitiesPeriodNum)!''}</a>&gt;<span>上传视频</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">新建
+        </div>
+        <div class="mainbody mb100 w ">
+        	<form action="addActivityVideo.do?periodId=${periodId!}"  method="post">
+    	    <!--tab-->
+       		<div id="wizard2" class="swMain">
+        
+         <!--页卡3-->
+        <div id="step-1">
+			<div class="main_page2" > 		
+                          	<ul>
+                          	<input type="file" class="cre_input" id="uploadifyfile_icon1" name="uploadifyfile_icon1"  value="开始上传"/>
+                     <script type="text/javascript" src="web/js/filesUpload/video.js"></script>
+                     <div  id="video" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+                              	上传中...<img src="web/images/de.gif" />
+                              </div>
+                              <div class="tab_content ">
+                               <table width="100%"  id="tab_a" class ="tab_aV">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                       <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">保存名称</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                                        
+                               </table>
+							</div>
+                            </ul>
+                                 <div class="tc mt20 mb40 w fl">
+                                  <input class="cre_input" type="button" onclick="javacript:history.go(-1);" value="返回"/>
+                                 <input class="cre_input" type="submit" value="添加"/></div>
+                      </div>
+				</div>
+        <!--页卡3-end-->
+     </div><!--tab- end--> 	
+    </form>
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+$(function(){
+	
+	//申报书
+	$(".shanchu_2").live('click',function(){
+		$(this).parent(".cs2").parent(".cs1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	//申报片
+	$(".shanchu_V").live('click',function(){
+		$(this).parent(".csV2").parent(".csV1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//申报照片
+	$(".shanchu_I").live('click',function(){
+		$(this).parent(".csI2").parent(".csI1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//其他
+	$(".shanchu_O").live('click',function(){
+		$(this).parent(".csO2").parent(".csO1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+})
+
+</script>
+</html>

@@ -1,0 +1,119 @@
+<script type="text/javascript">
+var type="item";
+function _search(tt){
+	if(tt =="item"){
+		$("#item").attr("class","chose");
+		$("#save").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#video1").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="item";
+	}else if(tt =="save"){
+		$("#save").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#video1").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="save";
+	}else if(tt =="person"){
+		$("#person").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#save").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#video1").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="person";
+	}else if(tt =="unit"){
+		$("#unit").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#save").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#video1").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="unit";
+	}else if(tt =="activiti"){
+		$("#activiti").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#save").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#video1").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="activiti";
+	}else if(tt =="video1"){
+		$("#video1").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#save").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#textFiles").removeClass("chose");
+		type="video1";
+	}else if(tt =="textFiles"){
+		$("#textFiles").attr("class","chose");
+		$("#item").removeClass("chose");
+		$("#save").removeClass("chose");
+		$("#person").removeClass("chose");
+		$("#unit").removeClass("chose");
+		$("#activiti").removeClass("chose");
+		$("#video1").removeClass("chose");
+		type="textFiles"
+	}
+}
+function selData()
+{
+	var url="";
+	if(type =="item" || type==""){
+		url="deputyItemList.do";
+	}else if(type =="save"){
+		url="saveItemList.do";
+	}else if(type =="person"){
+		url="deputyPersonList.do";
+	}else if(type =="unit"){
+		url="deputyUnitList.do";
+	}else if(type =="activiti"){
+		url="proActivity_list.do";
+	}else if(type =="video1"){
+		url="YxResources_List.do";
+	}else if(type =="textFiles"){
+		url="faguiFiles_List.do";
+	}
+	var con=$("#searchValue").val();
+	window.location.href="${contextPath}/"+url+"?deputyItemName="+con;
+}
+</script>
+<div class="search_c mt50 w fldis">
+        	<div class="fldis mr50">
+        	<img src="web/images/logo_2.png" /></div>
+            <div class="fldisa">
+                <div class="search_ca">
+            	<!--写后台时注意，当前选中状态a标签样式为：chose，不要都成红色的了！！
+                <a <#if !type?? || type=="item">class="chose"</#if> href="homeSearch.do?type=item">代表性项目</a>
+                <a <#if type=="save">class="chose"</#if> href="homeSearch.do?type=save">保存资料项目</a>
+                <a <#if type=="person">class="chose"</#if> href="homeSearch.do?type=person">代表性传承人</a>
+                <a <#if type=="unit">class="chose"</#if> href="homeSearch.do?type=unit">传承单位</a>
+                <a <#if type=="activiti">class="chose"</#if> href="homeSearch.do?type=activiti">传承传播活动</a>
+                <a <#if type=="video1">class="chose"</#if> href="homeSearch.do?type=video1">音像资源</a>
+                <a <#if type=="textFiles">class="chose"</#if> href="homeSearch.do?type=textFiles">法规与文件</a>
+                
+                -->
+                
+                <a class="chose" id="item" href="javascript:_search('item');" >代表性项目</a>
+                <a id="save" href="javascript:_search('save')" >保存资料项目</a>
+                <a id="person"  href="javascript:_search('person')" >代表性传承人</a>
+                <a id="unit" href="javascript:_search('unit')" >传承单位</a>
+                <a id="activiti" href="javascript:_search('activiti')" >传承传播活动</a>
+                <a id="video1" href="javascript:_search('video1')" >音像资源</a>
+                <a id="textFiles" href="javascript:_search('textFiles')">法规与文件</a>
+            </div>
+
+            <input name="" id="searchValue" value="${(deputyItemName!'')}" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:40px; float:left; display:block"  />
+             <input name="" onclick="selData()" type="button" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat; float:left; display:block" /></div>
+        	
+        </div>

@@ -1,0 +1,62 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+ 
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<span>${(activity.proActivitiesName)!''}</span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<ul>
+                	<li class="btit">传承传播活动</li>
+                    <!--选中状态：样式：a_chose-->
+        			<#list list_pro as p>
+                    <li><a <#if activity.proActivitiesName==p.proActivitiesName>class="a_chose"</#if> href="get_proActivity.do?id=${p.proActivitiesId!}">${p.proActivitiesName!}</a></li><!--选中状态：样式：a_chose-->
+                    </#list>
+                </ul>
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">${album.albumName!}</div>
+            <div class="picture_content">
+            		<ul>
+                    	<!--循环实例-->
+                    	<#list page.list as photo>
+                    	<li>
+                        <a href="download.do?filesId=${photo.FILE_ID}"><img width="170" height="140" src="${photo.FILE_URL!}" /></a>
+                        <span><p>${photo.FILE_NAME!}</p></span></li>
+                        </#list>
+                        <!--循环实例END-->
+                    	</ul>
+                    </div>
+                       <!--分页-->
+                    <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="showPhotos.do?pageNo=:pageNo&albumId=${album.albumId!}&activityId=${activity.proActivitiesId!}"/>
+	               	</#if> 
+	               	 <!--分页END-->
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>
+

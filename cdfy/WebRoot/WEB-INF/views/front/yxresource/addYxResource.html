@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/js/tab.js"></script>
+<script type="text/javascript" src="web/swfupload/Script/jquery.uploadify.js"></script>
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="YxResources_List.do">音像资源</a>&gt;<span>新建音像资源</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">上传
+        </div>
+        <div class="mainbody mb100 w ">
+       		 <!--选项卡-->
+             	<div id="wizard2" class="swMain">
+  			<ul>
+            	 <!--切换标签2-->
+  				<li><a href="#step-2">
+                <span class="stepNumber">♪</span>
+                <span class="stepDesc">音像资源<br/>
+                   <small>upload</small>
+                </span>
+            </a></li> <!--切换标签2-end-->
+  			</ul>
+            
+            <!--页卡1-->
+  			<div id="step-1">	
+            	<div class="main_xx">
+                        <ul>
+                            <li><span>标签名：</span><input name="" type="text" /></li>
+                        </ul>
+                      </div>
+        </div><!--页卡1-end-->
+        
+        	<!--页卡2-->
+  			<div id="step-2">
+           <div class="main_page2" > 		
+                          <ul>
+                              <input type="file" name="uploadifyfile_icon" id="uploadifyfile_icon" />
+                              <div class="tab_content1 ">
+                               <table width="100%" height="" id="tab_a">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                        <tr>
+                                          <th scope="col" style="width:40%">原文件名</th>
+                                          <th scope="col" style="width:40%">新文件名</th>
+                                          <th scope="col" style="width:10%">状态</th>
+                                          <th scope="col" style="width:10%">移除</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                                        
+                                        <!--循环实例-->
+                                        <tbody id="fileQueue_icon">
+                                        
+                                         </tbody>
+                                         
+                                        <!--循环实例END-->
+                               </table>
+							</div><br/>
+							<li id="setallName" style="display: none;"><span>统一命名：</span> <input oninput="onchangesetVal()" onchange="onchangesetVal()" style="width:420px; height:28px; display: inline;background-color:#eeeeee; border:1px solid #dcdcdc; font-size:14px; line-height:30px; color:#323131"  id="allname" type="text" />
+							</li>
+                            </ul>
+                            <li class="tc mt20 mb40 ml50 w880 fl">
+                                  <input class="cre_input" name="" type="button" onclick="javacript:history.go(-1);" value="返回"/>
+                                 <input class="cre_input" id="startUpload" style="display: none;" name="" type="button" value="上传"/></li>
+                      </div>
+        </div><!--页卡2-end-->      
+
+     </div>  <!--选项卡-->
+        	
+        	<!--<div class="tc mt30 mb30">
+            <input class="cre_input" name="" type="submit" value="下一步" onclick="location.href='create_project_next.html'"/>
+        </div>-->
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	//  Wizard 1  	
+	$('#wizard1').smartWizard({transitionEffect:'fade',onFinish:onFinishCallback});
+	
+	//  Wizard 2
+	$('#wizard2').smartWizard({transitionEffect:'slide',onFinish:onFinishCallback});
+	function onFinishCallback(){
+		alert('Finish Called');
+	}     
+});
+$(function() {
+	$("#uploadifyfile_icon").uploadify( {
+		 'method'   : 'Get',
+		'swf' : '${contextPath}/web/swfupload/Script/uploadify.swf',
+		'queueID' : 'fileQueue_icon',
+		'uploader' : 'uploadYxResources.do?authcode=${authcode!}',
+		'fileSizeLimit' : 50 * 1024 * 1024,
+		'fileTypeExts' : '*.jpg;*.png;*.gif;*.mp4;*.flv;',
+		'fileTypeDesc' : '请选择图像/视频',
+		'uploadLimit' : 20,
+		'height' : 38,
+		'width' : 100,
+		'auto' : false,
+		'multi' : true,
+		'removeCompleted' : true,
+		'buttonImage' : '${contextPath}/web/images/xuanze.png',
+		'overrideEvents' : [ 'onUploadSuccess' ],
+		
+		/*'itemTemplate' : '<div id="${r"${fileID}"}" class="Content_Txt uploadify-queue-item"><ul style="margin:0">\
+        	<li class="W400" ><span style="height:53px;line-height:53px;" title="${r"${fileName} (${fileSize})"}">${r"${fileName} (${fileSize})"}</span></li>\
+        	 <li style="width:200px;"><textarea id="${r"${fileID}"}_name" style="width:150px;border:1px solid black;height:50px;resize: none;"></textarea></li>\
+         	<li style="width:200px;"><textarea id="${r"${fileID}"}_desc" style="width:150px;border:1px solid black;height:50px;resize: none;"></textarea></li>\
+            <li class="W200"><span style="height:53px;line-height:53px;" class="data">- 等待上传</span>\
+            <div style="display:none;" class="uploadify-progress"><div class="uploadify-progress-bar"><!--Progress Bar--></div></div></li>\
+            <li class="W49"><a TITLE="删除" style="height:53px;line-height:53px;" id="${r"${fileID}"}_cancel" href="javascript:$(\'#${r"${instanceID}"}\').uploadify(\'cancel\', \'${r"${fileID}"}\')">X</a></li>\
+        </ul>',*/
+		'itemTemplate' : '<tr id="${r"${fileID}"}"><td>${r"${fileName} (${fileSize})"}</td><td><input style=" width:90%; height:20px;border:1px solid #dcdcdc" id="${r"${fileID}"}_name" name="newname" type="text" /></td><td class="data">待上传</td><td><a class="shanchu_2" title="删除" id="${r"${fileID}"}_cancel" href="javascript:$(\'#${r"${instanceID}"}\').uploadify(\'cancel\', \'${r"${fileID}"}\')"></a></td></tr>',
+        
+		'onUploadSuccess' : function(file, data, response){
+			$("#" + file.id).find(".data").html("<font style='color:green;'>上传成功</font>");
+		},
+		'onUploadError' : function(file, errorCode, errorMsg, errorString){
+			$("#" + file.id).find(".data").html("<font style='color:red;'>上传失败</font>");
+		},
+		'onUploadStart' : function(file){
+			if ($('#' + file.id)) {
+				$("#" + file.id).find(".cancel").remove();
+			}
+			$("#uploadifyfile_icon").uploadify('settings', 'formData', {'newfilename':$("#" + file.id + '_name').val()});	
+			//$("#uploadifyfile_icon").uploadify('settings', 'formData', {'allfilename':$("#allname").val()});
+		},
+		'onQueueComplete' : function(){
+			if(!confirm("上传完成，是否继续上传"))
+			window.location.href="YxResources_List.do";
+		},
+		'onSelect' : function(){
+			$("#startUpload").show();
+			$("#setallName").show();
+		}
+	});
+	$("#startUpload").click(function(){
+		$('#uploadifyfile_icon').uploadify('upload', '*');
+	})
+	
+	$("#resetUpload").click(function(){
+		$('#uploadifyfile_icon').uploadify('cancel', '*');
+	})
+	
+});
+function onchangesetVal()
+	{
+		var elem=document.getElementsByName("newname");
+		for(var i=0;i<elem.length;i++)
+		{
+			elem[i].value=$("#allname").val();
+		}
+	}
+</script>
+</html>

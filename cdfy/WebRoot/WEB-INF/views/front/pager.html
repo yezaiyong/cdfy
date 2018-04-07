@@ -1,0 +1,83 @@
+ <#--分页（Pager对象、链接URL、最大页码显示数） --> 
+ <#macro pager pager baseUrl maxShowPageCount = 6> 
+	<#local pageNo = pager.pageNo /> 
+	<#local totalCount = pager.totalCount /> 
+	<#local pageCount = pager.totalPage />
+
+	<#local firstPageUrl = baseUrl?replace(':pageNo',1) />
+ 	<#local lastPageUrl = baseUrl?replace(':pageNo',pageCount) />
+ 	<#local prePageUrl = baseUrl?replace(':pageNo',(pageNo - 1)) /> 
+	<#local nextPageUrl = baseUrl?replace(':pageNo',(pageNo + 1)) /> 
+	<#if maxShowPageCount <= 0>
+		<#local maxShowPageCount = 6>
+ 	</#if> 
+ 	<#local segment = ((pageNo - 1) / maxShowPageCount)?int + 1 />
+ 	<#local startPageNo = (segment - 1) * maxShowPageCount + 1 />
+ 	<#local endPageNo = segment * maxShowPageCount/>
+ 	<#if (startPageNo < 1)>
+  		<#local startPageNo = 1 /> 
+  	</#if>
+   <#if (endPageNo > pageCount)>
+ 		<#local endPageNo = pageCount /> 
+ 	</#if>
+
+<#if pageCount gt 1>
+<script type="text/javascript">
+function got() {
+	var s = document.getElementById("pageNo").value;
+	if (s != "") {
+		document.location.href = "${baseUrl!}".replace(/:pageNo/, s);
+	}
+
+}
+</script>
+<div class="pagination">
+    <div class="pag_left" >
+    	<h3>共<span  class="page1">${totalCount!}</span>条结果 | 共<span  class="page1">${pageCount!}</span>页 | 第<span  class="page1">${pageNo!}</span>页</h3>
+    </div>
+    <div class="pag_right">
+	 <#if (pageNo > 1)>
+	 	<a href="${firstPageUrl}">首页</a><span>|</span>
+		<a href="${prePageUrl}">上一页</a> <span>|</span>
+	<#else>
+		<span>首页</span><span>|</span>
+		<span>上一页</span><span>|</span>
+	</#if> 
+	<#comment>
+	<#if (startPageNo > 1)>
+		<a href="${baseUrl?replace(':pageNo',(startPageNo - 1))}"></a>
+	</#if> 
+	<#list startPageNo .. endPageNo as index> 
+		<#if index_index!=0>
+		</#if> 
+		<#if pageNo != index>
+			<#else>
+		</#if>
+	 </#list> 
+	 <#if ((endPageNo + 2) < pageCount)>
+		<a href="${baseUrl?replace(':pageNo',(endPageNo +1))}"></a>
+	 <#elseif (endPageNo < pageCount)> 
+	 <#list (endPageNo+1) .. pageCount as index>
+		  <#if index_index!=0>
+		   </#if>
+			<a href="${baseUrl?replace(':pageNo',index)}">${index}</a>
+	</#list>
+	 </#if> 
+	 </#comment>
+	<#if (pageNo < pageCount)>
+		<a href="${nextPageUrl}">下一页</a><span>|</span>
+		<a href="${lastPageUrl}">末页</a> <span>|</span>
+	<#else>
+		<span>下一页</span><span>|</span>
+		<span>末页</span><span>|</span>
+	</#if>
+	<b>转至：</b>
+	<input class="page_text"  type="text"
+			value="${pageNo!}" maxlength="4"
+			onkeyup="this.value=this.value.replace(/\D/g,'')"
+			onafterpaste="this.value=this.value.replace(/\D/g,'')" class="texta">
+	<input id="gotoPageBtn" onClick="got();" type="button" value="确定" class="page_subm">
+	</div>
+</div>
+</#if>
+</#macro>

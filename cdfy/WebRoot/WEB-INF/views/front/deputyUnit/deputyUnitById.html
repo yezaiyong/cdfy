@@ -1,0 +1,71 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="deputyUnitList.do">传承单位</a>&gt;<span><a href="deputyUnitById.do?deputyUnitId=${(deputyUnitId!'')}"><@my.list id="name" hql="from DeputyUnit S WHERE S.deputyUnitId ='${(deputyUnitId!'')}'">${(name.deputyUnitName!'')}</@my.list></a></span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<#include "../menubyUnit.html"/>
+        </div><!--左边内容END-->
+        <!--右边内容-->
+         <div class="mainbody_right">
+         	<div class="right_title">传承单位</div>
+            <div class="right_writer">
+            	<!--项目名称-->
+            	<@my.list id="data" hql="from DeputyUnit s where s.deputyUnitId='${(deputyUnitId)!''}'">
+            	
+            	<b class="writer_title">${(data.deputyUnitName)!''}</b>
+                <!--项目名录-->
+                <ul>
+                	<li><span>所属项目：</span>${(data.deputyItem.deputyItemName)!''}</li>
+                    <li><span>传承单位类型：</span>
+                    <@my.list id="type"  hql ="from DataDict s where s.code='${(data.deputyUnitType)!''}' and s.type='UNIT_TYPE' ">
+                    ${(type.name)!''}
+                    </@my.list>
+                    </li>
+                    <li><span>级别：</span>
+                    <@my.list id="type"  hql ="from DataDict s where s.code='${(data.deputyUnitGrade)!''}' and s.type='GARD' ">
+                    ${(type.name)!''}
+                    </@my.list>
+                    </li>
+                    <li><span>申报批次：</span>
+                     <@my.list id="type"  hql ="from DataDict s where s.code='${(data.deputyUnitBatch)!''}' and s.type='BATCH' ">
+                    ${(type.name)!''}
+                    </@my.list>
+                    </li>
+                </ul>
+                <div class="clearfloat"></div>
+            </div>
+            <div class="right_content">
+            <b class="writer_title">简介</b>
+            	<div class="dangan">
+                	${(data.deputyUnitDesc)!''}
+                </div>
+             </@my.list>  
+            	
+            </div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

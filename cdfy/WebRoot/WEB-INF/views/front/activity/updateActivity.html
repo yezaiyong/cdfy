@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+var authcode="${authcode!''}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script src="web/js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.methods.js" type="text/javascript"></script>
+<script src="web/js/main.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="web/css/valid.css" />
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<span>修改展演活动</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">修改
+        </div>
+        <div class="mainbody mb100 w ">
+    	    <!--tab-->
+       		<div id="wizard2" class="swMain">
+             <!--页卡1-->
+  			<div id="step-1">	
+                  <form id="validateForm" action="updateActivity.do?activityId=${aper.proActivities.proActivitiesId!}&periodId=${aper.activitiesPeriodId!}" method="post">
+                    <div class="main_xx" >
+                                <ul>
+                                <li><span>活动名称：</span><input maxlength="50" id="names" name="activityName" type="text" value="${aper.proActivities.proActivitiesName!}" validate="{required:true ,messages:{required:'*请填写活动名称'}}" /></li>
+                             <li><span>活动批次：</span><input name="activitiesPeriodNum" type="text" maxlength=50" value="${aper.activitiesPeriodNum!}" validate="{required:true ,messages:{required:'*请填写活动批次'}}" /></li>
+  									 <li class="tc mt40 mb40 w fl">
+  									 <input style="width:94px; height:33px; background:url(web/images/bot_bg1.png) no-repeat; color:#fff; font-size:14px; margin:0 80px 0 80px; cursor:pointer; border:0;" name="" type="button" onclick="javacript:history.go(-1);" value="返 回"/>
+                                	<input style="width:94px; height:33px; background:url(web/images/bot_bg1.png) no-repeat; color:#fff; font-size:14px; margin:0 80px 0 80px; cursor:pointer; border:0;" type="submit" value=" 修 改 " /></li>
+                                </ul>
+                                    
+                      </div>  
+                   </form> 
+        </div><!--页卡1-end-->
+        
+     </div><!--tab- end--> 	
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<#include "../inc.html"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部--><#include "../top.html"/>
+	<!--头部-->
+    <!--主体框-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="deputyPersonList.do">代表性传承人</a>&gt;<a href="deputyPersonById.do?deputyPersonId=${(deputyPersonId!'')}"><@my.list id="name" hql="from DeputyPerson S WHERE S.deputyPersonId ='${(deputyPersonId!'')}'">${(name.deputyPersonName!'')}</@my.list></a>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<#include "../menubyPerson.html"/>
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">照片</div>
+            <div class="right_content">
+            	<div class="picture_content">
+            		<ul>
+                    	<!--循环实例-->
+                    	
+                    	<#assign sql="select * from files cc where cc.file_id in(  select qq.file_id from person_apply ss left join person_apply_files qq on ss.apply_id=qq.appaly_id where ss.DEPUTY_PERSON_ID='${(deputyPersonId!'')}' and ss.apply_gard='${(applyGard!'')}') and cc.type='img'">
+              		<@my.pager id="page" sql="${sql}" size="${pageSize!10}" page="${pageNo!1}" />
+			  		<#list (page.list)! as t>
+                    	<li>
+                        <a href="###" title="${(t.FILE_NAME!'')}"><img width="170" height="140" src="${(t.FILE_URL!'')}" /></a>
+                       <span><p title="${(t.FILE_NAME!'')}"><@html2Text html=t.FILE_NAME length="8"/></p>
+                        <#if USER.role !="common">
+                        <a href="download.do?filesId=${(t.FILE_ID!'')}" >点击下载</a>
+                        </#if>
+                        </span></li>
+                        <!--循环实例END-->
+                    </#list>
+                        
+                    </ul></div>
+                       <!--分页-->
+                    <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/getFilesImgByPerson.do?pageNo=:pageNo&deputyPersonId=${(deputyPersonId!'')}"/>
+	               	</#if>    <!--分页END-->
+            </div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

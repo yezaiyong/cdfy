@@ -1,0 +1,125 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript"> 
+
+function ddd(thisObj, sType) { 
+	var role='${USER.role}';
+	if(role=="manager")
+	{
+		var oDiv = document.getElementById(thisObj); 
+		if (sType == 'show') { oDiv.style.display = 'block';} 
+		if (sType == 'hide') { oDiv.style.display = 'none';} 
+	} 
+}
+</script>
+</head>
+ 
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<span>${(activity.proActivitiesName)!''}</span><#if USER.role =="manager"><a class="new_pr" href="toAddActivity.do">新建</a></#if>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<ul>
+                	<li class="btit">传承传播活动</li>
+                    <!--选中状态：样式：a_chose-->
+        			<#list list_pro as p>
+                    <li onmouseover="ddd('a_${p.proActivitiesId!}', 'show');" onmouseout="ddd('a_${p.proActivitiesId!}', 'hide');"><a title="${p.proActivitiesName!}" <#if activity.proActivitiesId==p.proActivitiesId>class="a_chose"</#if> <#if activity.proActivitiesId!=p.proActivitiesId!>class="no_chose"</#if> href="get_proActivity.do?id=${p.proActivitiesId!}">${p.proActivitiesName!}</a>
+                    	 <#if USER.role =="manager">
+                    	<b style="display: none;" id="a_${p.proActivitiesId!}" >
+                		 <a class="shanchu_2 " title="删除" href="javascript:delActivity(${p.proActivitiesId!});"  ></a>
+                		 </b>
+                		 </#if>
+                    	
+                    </li><!--选中状态：样式：a_chose-->
+                    </#list>
+                </ul>
+                
+                
+                
+                
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">${(activity.proActivitiesName)!''}</div>
+            <div class="show_content">
+             <table width="100%"  id="tab_c">
+			  <tr>
+			    <th width="70%" scope="col">活动批次</th>
+			    <#if USER.role =="manager">
+			    <th  scope="col">操作</th>
+			    </#if>
+			  </tr>
+			  <#list (activity.activitiesPeriods)! as per>
+			  <tr>
+			    <td><a href="show_activityInfo.do?activityId=${(activity.proActivitiesId)!''}&periodId=${(per.activitiesPeriodId)!''}">${(per.activitiesPeriodNum)!''}</a></td>
+			    <#if USER.role =="manager">
+			  	  <td><a href="to_updateActivity.do?periodId=${(per.activitiesPeriodId)!''}">修改</a><a href="javascript:del(${(per.activitiesPeriodId)!''})">删除</a></td>
+			  	</#if>
+			  </tr>
+			  </#list>
+			</table>
+            	<!--<div class="show_bt">
+                		<ul>
+                			<#list (activity.activitiesPeriods)! as per>
+                    		<li  onmouseover="ddd('b_${(per.activitiesPeriodId)!}', 'show');" onmouseout="ddd('b_${(per.activitiesPeriodId)!}', 'hide');">
+                        	<a class="pingk" href="show_activityInfo.do?activityId=${(activity.proActivitiesId)!''}&periodId=${(per.activitiesPeriodId)!''}">${(per.activitiesPeriodNum)!''}</a>
+                            <#if USER.role =="manager">
+                             <b style="display:none;" id="b_${(per.activitiesPeriodId)!}" >
+	                            <a class="xiugai_1" title="修改" href="to_updateActivity.do?periodId=${(per.activitiesPeriodId)!''}"></a>
+	                            <a class="shanchu_1" title="删除"  href="javascript:del(${(per.activitiesPeriodId)!''})"></a>
+	                         </b>
+                           	</#if>
+                           </li>
+                           </#list>
+                        </ul>
+                </div>
+            --></div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+<script type="text/javascript">
+function del(id)
+{
+	if(confirm("是否确认删除？"))
+	{
+		window.location.href="delActivityPeriod_info.do?periodId="+id;
+	}
+}
+
+function delActivity(id)
+{
+	if(confirm("是否确认删除这项活动？"))
+	{
+			$.post("delActivity.do",{"activityId":id},function(data){
+				if(data=='success')
+				{
+					alert("删除活动成功！");
+					window.location.href="proActivity_list.do";
+				}
+			},"text");
+	}
+}
+
+</script>
+</html>
+

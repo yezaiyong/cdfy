@@ -1,0 +1,21 @@
+<div class="header">
+    	<div class="exit">
+    	<a target="_blank" href="help.htm">操作手册</a>
+    	<a href="logout.do">退出</a>
+        </div><!--退出-->
+        <!--用户-->
+    	<div class="user"><span>当前用户：${(USER.userName)!''}
+    	<#if USER.role =="manager">
+    	(系统管理员)
+    	<#elseif USER.role =="highgrade">
+    	(高级用户)
+    	<#else>
+    	(普通用户)
+    	</#if>
+    	</span>
+    	<#if USER.role =="manager">
+        		<a class="create_us" href="create.do">系统管理</a>
+       </#if>
+       <a class="create_us" href="updatePage.do?id=${(USER.id)!''}">修改密码</a>
+        </div><!--用户-->   
+	</div>

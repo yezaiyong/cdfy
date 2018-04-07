@@ -1,0 +1,67 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="flexpaper/js/flexpaper_flash.js"></script>
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部--><#include "../top.html"/><!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="deputyItemList.do">代表性项目</a>&gt;<a href="deputyItemByItemId.do?deputyItemId=${(deputyItemId!'')}"><@my.list id="name" hql="from DeputyItem S WHERE S.deputyItemId ='${(deputyItemId!'')}'">${(name.deputyItemName!'')}</@my.list></a>
+        </div><!--当前位置END-->
+        	</div>
+         <div class="playing">
+         	<!--播放器-->
+         	<@my.list id="item" hql="from Files s where s.fileId =${(fileId!'')}">
+         	<div class="play_video">
+ 	 <div>
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+		codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
+		width="980" height="460">
+		<param name="movie"
+			value="flvPlayer.swf?vcastr_file=${(item.fileUrl!'')}&IsAutoPlay=0&BufferTime=1">
+			<param name="quality" value="high">
+				<param name="allowFullScreen" value="true" />
+				<embed
+					src="flvPlayer.swf?vcastr_file=${(item.fileUrl!'')}&IsAutoPlay=0&BufferTime=1"
+					allowFullScreen="true" quality="high"
+					pluginspage="http://www.macromedia.com/go/getflashplayer"
+					type="application/x-shockwave-flash" width="980" height="460"></embed>
+	</object>
+		</div>          	
+            </div><!--播放器END-->
+            </@my.list>
+         </div>
+        
+ 
+</body>
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/js/jquery.slide.js"></script>
+<script type="text/javascript">
+$(function (){
+	
+	/* 用按钮控制图片左右滚动 */
+	$(".hotPic .JQ-slide").Slide({
+		effect:"scroolLoop",
+		autoPlay:false,
+		speed:"normal",
+		timer:3000,
+		steps:1
+	});
+	
+	
+	
+});
+</script>
+</html>

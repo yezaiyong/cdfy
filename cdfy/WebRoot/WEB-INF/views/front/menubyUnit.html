@@ -1,0 +1,24 @@
+				<ul style="height: 35px !important;">
+				<li class="btit">
+        		    <@my.list id="data" hql="from DataDict s where s.code ='${(deputyUnitType)}' and s.type ='UNIT_TYPE'">
+        		    ${(data.name)!''}
+        		    </@my.list>
+        		    </li>
+				</ul>
+<@my.list id="t" hql="from UnitApply s where s.deputyUnit.deputyUnitId ='${(deputyUnitId)!''}' order by s.applyGard asc ">
+        		<ul>
+                	<li class="btit">
+                	<#if t.applyGard =="01">
+                	国家级
+                	<#elseif t.applyGard =="02">
+                	省级
+                	<#elseif t.applyGard =="03">
+                	市级
+                	</#if>申报材料</li>
+                    <!--选中状态需要给a标签加样式：a_chose-->
+                    <li><a  href="getFilesBookByUnit.do?deputyUnitId=${(t.deputyUnit.deputyUnitId!'')}&applyGard=${(t.applyGard!'')}&deputyUnitType=${(t.deputyUnit.deputyUnitType)!''}">申报书</a></li>
+                    <li><a  href="getFilesVideoByUnit.do?deputyUnitId=${(t.deputyUnit.deputyUnitId!'')}&applyGard=${(t.applyGard!'')}&deputyUnitType=${(t.deputyUnit.deputyUnitType)!''}">申报片</a></li>
+                    <li><a href="getFilesImgByUnit.do?deputyUnitId=${(t.deputyUnit.deputyUnitId!'')}&applyGard=${(t.applyGard!'')}&deputyUnitType=${(t.deputyUnit.deputyUnitType)!''}">照片</a></li>
+                    <li><a href="getFilesOtherByUnit.do?deputyUnitId=${(t.deputyUnit.deputyUnitId!'')}&applyGard=${(t.applyGard!'')}&deputyUnitType=${(t.deputyUnit.deputyUnitType)!''}">其他</a></li>
+                </ul>
+               </@my.list>

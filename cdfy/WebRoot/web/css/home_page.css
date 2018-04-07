@@ -1,0 +1,33 @@
+@charset "utf-8";
+/*logo*/
+.logo{width:100%; height:auto; margin-top:70px; text-align:center;}
+/*搜索栏*/
+.search{ width:100%; height:auto;text-align:center;}
+.search_a{height:20px; text-align:left; padding-left:146px;}
+.search_a a{padding:2px; color:#262626; line-height:20px; margin:0 5px; letter-spacing:1px; text-decoration:none;}
+.search_a a:hover,.search_a a.chose{ color: #FFF; background:#800000;}
+.search_b{height:40px;padding-left:136px;}
+/*选项*/
+.pickd{ width:100%; height:auto;}
+.pickd ul{ width:620px; height:auto; display:block; margin-left:180px; margin-top:100px;}
+.pickd ul li{width:25%; height:33px; display:block;float:left; margin-bottom:30px;}
+.pickd ul li a{ text-decoration:none;color:#262626;}
+.pickd ul li a span{ padding-left:35px; line-height:28px;}
+.pickd ul li a.icon7a{display:block;background:url(../images/icon7a.png) no-repeat;}
+.pickd ul li a.icon7a:hover{ color:#800000; background:url(../images/icon7b.png) no-repeat;}
+.pickd ul li a.icon1a{display:block;background:url(../images/icon1a.png) no-repeat;}
+.pickd ul li a.icon1a:hover{ color:#800000; background:url(../images/icon1b.png) no-repeat;}
+.pickd ul li a.icon2a{display:block;background:url(../images/icon2a.png) no-repeat;}
+.pickd ul li a.icon2a:hover{ color:#800000; background:url(../images/icon2b.png) no-repeat;}
+.pickd ul li a.icon3a{display:block;background:url(../images/icon3a.png) no-repeat;}
+.pickd ul li a.icon3a:hover{ color:#800000; background:url(../images/icon3b.png) no-repeat;}
+.pickd ul li a.icon8a{display:block;background:url(../images/icon8a.png) no-repeat;}
+.pickd ul li a.icon8a:hover{ color:#800000; background:url(../images/icon8b.png) no-repeat;}
+.pickd ul li a.icon4a{display:block;background:url(../images/icon4a.png) no-repeat;}
+.pickd ul li a.icon4a:hover{ color:#800000; background:url(../images/icon4b.png) no-repeat;}
+.pickd ul li a.icon5a{display:block;background:url(../images/icon5a.png) no-repeat;}
+.pickd ul li a.icon5a:hover{ color:#800000; background:url(../images/icon5b.png) no-repeat;}
+.pickd ul li a.icon6a{display:block;background:url(../images/icon6a.png) no-repeat;}
+.pickd ul li a.icon6a:hover{ color:#800000; background:url(../images/icon6b.png) no-repeat;}
+
+

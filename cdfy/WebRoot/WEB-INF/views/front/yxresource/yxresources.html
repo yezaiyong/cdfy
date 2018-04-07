@@ -1,0 +1,113 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+function selData()
+{
+	var con=$("#condition").val();
+	window.location.href="${contextPath}/YxResources_List.do?deputyItemName="+con;
+}
+</script>
+</head>
+ 
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<div class="search_c mt50 w fldis">
+        	<div class="fldis mr50">
+        	<img src="web/images/logo_2.png" /></div>
+            <div class="fldis mt10">
+            <input value="${deputyItemName!}" id="condition" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:38px; float:left; display:block" />
+             <input type="button" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat; float:left; display:block" onclick="selData();"/></div>
+        </div><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>音像资源</span><#if USER.role =="manager"><a class="new_pr" href="toAddYxResource.do"> 新 建 </a></#if>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="mainbody_a mb25 w">
+        		<div class="title_a h35 w fb f14"><span>选择条件</span></div>
+                <div class="elect">
+                	<ul>
+                    	<li class="con_a">类型：</li>
+                        <li class="con_b">
+                            <a <#if !type??||type==''>class="chose"</#if> href="${contextPath}/YxResources_List.do?deputyItemName=${deputyItemName!}&business_type=${(business_type!'')}">不限</a>
+                            <a <#if type?? && type == 'img'>class="chose"</#if> href="${contextPath}/YxResources_List.do?type=img&business_type=${(business_type!'')}&deputyItemName=${deputyItemName!}">图像</a>
+                            <a <#if type?? && type == 'video'>class="chose"</#if> href="${contextPath}/YxResources_List.do?type=video&business_type=${(business_type!'')}&deputyItemName=${deputyItemName!}">视频</a>
+                    </ul>
+                      <ul>
+                          <li class="con_a">类别：</li>
+                          <li class="con_b">
+                                <a <#if !business_type??||business_type==''>class="chose"</#if> href="${contextPath}/YxResources_List.do?type=${type!}&deputyItemName=${deputyItemName!}" >不限</a>
+                                 <@my.list id="result" hql="from DataDict s where s.type ='BUSINESS_TYPE'">
+                                <a <#if business_type?? && business_type == '${result.code!}'>class="chose"</#if> href="${contextPath}/YxResources_List.do?type=${type!}&business_type=${result.code!}&deputyItemName=${deputyItemName!}">${result.name!}</a>
+                                </@my.list>
+                                <a <#if business_type?? && business_type == 'other'>class="chose"</#if> href="${contextPath}/YxResources_List.do?type=${type!}&business_type=other&deputyItemName=${deputyItemName!}">其他</a>
+                            </ul>
+                             <div class="clearfloat"></div>
+                      </div>
+        		</div>
+        <div class="create mt10 tc f14 fb">查询结果
+        </div>
+         <div class="mainbody_b mb100 tc w">
+            	<div class="video_content1">
+            		<ul>
+            		<#assign hql="from Files f where 1=1 " />
+            		<#if !type?? || type == ''>
+	               		<#assign hql= hql +  "and f.type in('img','video') "  />
+	               	</#if>
+	               	<#if type?? && type != ''>
+	               		<#assign hql= hql +  "and f.type='${type!}' "  />
+	               	</#if>
+            		<#if business_type?? && business_type != ''>
+            			<#if business_type == "'person','personinfo'">
+	               			<#assign hql= hql +  "and f.businessType in (${business_type!}) "  />
+	               		<#else>
+	               			<#assign hql= hql +  "and f.businessType ='${business_type!}' "  />
+	               		</#if>
+	               	</#if>
+	               	<#if deputyItemName?? && deputyItemName != ''>
+	               		<#assign hql= hql +  "and f.fileName like '%${deputyItemName}%' "  />
+	               	</#if>
+	               	<#assign hql= hql +  "ORDER BY f.createDate desc"  />
+	               	<@my.pager id="page" hql="${hql}" size="${pageSize!15}" page="${pageNo!1}" />
+                    	<!--循环实例-->
+                        <h2>音像</h2>
+                        <#list (page.list)! as f>
+                        <#if f.type=='img'>
+	                    	<li>
+	                        <a href="download.do?filesId=${f.fileId}"><img width="170" height="140" src="${f.fileUrl!}" /></a>
+	                        <span><p><a href="download.do?filesId=${f.fileId}">${f.fileName!}</a></p></span>
+	                        </li>
+                        </#if>
+                        <#if f.type=='video'>
+                        <li>
+                        <a href="tovideoPlay_yx.do?fileId=${f.fileId}"><img width="170" height="140" src="web/images/video_img.png" /><b class="play"></b></a>
+                        <span><p><a href="download.do?filesId=${f.fileId}">${f.fileName!}</a></p></span>
+                        </li>
+                        </#if>
+                        </#list>
+                        <!--循环实例END-->
+
+</ul></div>         
+                 <!--分页-->
+                     <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/YxResources_List.do?pageNo=:pageNo&type=${type!}&business_type=${business_type!}&deputyItemName=${deputyItemName!}"/>
+	               	</#if> <!--分页END-->
+        </div>
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>
+

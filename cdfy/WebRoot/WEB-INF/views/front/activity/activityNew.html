@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+ 
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<a href="show_activityInfo.do?activityId=${(aperiod.proActivities.proActivitiesId)!''}&periodId=${(aperiod.activitiesPeriodId)!''}">${(aperiod.proActivities.proActivitiesName)!''}${(aperiod.activitiesPeriodNum)!''}</a>&gt;<span>新闻详情</span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<ul>
+                	<li class="btit">传承传播活动</li>
+                    <!--选中状态：样式：a_chose-->
+        			<#list list_pro as p>
+                    <li><a <#if activity.proActivitiesName==p.proActivitiesName>class="a_chose"</#if> href="get_proActivity.do?id=${p.proActivitiesId!}">${p.proActivitiesName!}</a></li><!--选中状态：样式：a_chose-->
+                    </#list>
+                </ul>
+                
+                
+                
+                
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">新闻报道</div>
+            <div class="right_writer_news">
+            	<!--新闻标题-->
+            	<b class="writer_title">${news.activitiesContentTitle!}</b>
+                <b class="writer_time">${news.createDate!}      &nbsp;&nbsp;&nbsp;作者： ${news.createId!}</b>
+                <!--新闻标题-->
+                <div class="clearfloat"></div>
+            </div>
+             <div class="right_content">
+                <!--新闻详情-->
+            	<div class="right_main_content">
+                	${news.activitiesContentDesc!}
+                </div> <!--新闻详情END-->         
+            </div>
+            <div class="news_next">
+            <a class="down" href="showActivityNew.do?periodId=${aperiod.activitiesPeriodId!}&newId=${nextId!}">下一篇</a>
+            <a class="up" href="showActivityNew.do?periodId=${aperiod.activitiesPeriodId!}&newId=${lastId!}">上一篇</a></div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>
+

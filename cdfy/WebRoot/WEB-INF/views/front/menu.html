@@ -1,0 +1,17 @@
+<@my.list id="t" hql="from ItemApply s where s.deputyItem.deputyItemId ='${(deputyItemId)!''}' order by s.applyGard asc ">
+        		<ul>
+                	<li class="btit">
+                	<#if t.applyGard =="01">
+                	国家级
+                	<#elseif t.applyGard =="02">
+                	省级
+                	<#elseif t.applyGard =="03">
+                	市级
+                	</#if>申报材料</li>
+                    <!--选中状态需要给a标签加样式：a_chose-->
+                    <li><a  href="getFilesBook.do?deputyItemId=${(t.deputyItem.deputyItemId!'')}&applyGard=${(t.applyGard!'')}">申报书</a></li>
+                    <li><a  href="getFilesVideo.do?deputyItemId=${(t.deputyItem.deputyItemId!'')}&applyGard=${(t.applyGard!'')}">申报片</a></li>
+                    <li><a href="getFilesImg.do?deputyItemId=${(t.deputyItem.deputyItemId!'')}&applyGard=${(t.applyGard!'')}">照片</a></li>
+                    <li><a href="getFilesOther.do?deputyItemId=${(t.deputyItem.deputyItemId!'')}&applyGard=${(t.applyGard!'')}">其他</a></li>
+                </ul>
+               </@my.list>

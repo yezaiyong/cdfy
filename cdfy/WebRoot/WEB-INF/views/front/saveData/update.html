@@ -1,0 +1,337 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+ var authcode="${(authcode!'')}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<link rel="stylesheet" type="text/css" href="web/swfupload/Script/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="web/js/fancybox/jquery.fancybox.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/swfupload/Script/jquery.uploadify.js"></script>
+<script type="text/javascript" src="web/js/jquery.smartWizard-2.0.min.js"></script>
+<script src="web/js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.methods.js" type="text/javascript"></script>
+<script src="web/js/main.js" type="text/javascript"></script>
+</head>
+<script>
+//调用插件必须重写此方法
+function _page_next(){
+	
+};
+//验证输入框必填
+function validateValue(){
+		 if(!$("#names").valid()){
+        		return false;
+        	}
+        	if(!$("#saveItemType").valid()){
+        		return false;
+        	}
+        	if(!$("#declarationBatch").valid()){
+        		return false;
+        	}
+        	if(!$("#itemAddress").valid()){
+        		return false;
+        	}
+		};
+$(function(){
+	//申报书
+	$(".shanchu_2").live('click',function(){
+		$(this).parent(".cs2").parent(".cs1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	//申报片
+	$(".shanchu_V").live('click',function(){
+		$(this).parent(".csV2").parent(".csV1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//申报照片
+	$(".shanchu_I").live('click',function(){
+		$(this).parent(".csI2").parent(".csI1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+	
+	//其他
+	$(".shanchu_O").live('click',function(){
+		$(this).parent(".csO2").parent(".csO1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+})
+</script>
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--头部END-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>修改项目</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">修改项目
+        </div>
+        <div class="mainbody mb100 w ">
+        <form action="updateDataItem.do" method="post">
+        <input type="hidden" name="businessType" value=saveData />
+    	    <!--tab-->
+       		<div id="wizard2" class="swMain">
+  			<ul>
+            	 <!--切换标签1-->
+  				<li><a href="#step-1">
+                <span class="stepNumber">1</span>
+                <span class="stepDesc">
+                   基本资料<br />
+                   <small>Step 1 description</small>
+                </span>
+            </a></li> <!--切换标签1-END-->
+            	 <!--切换标签2-->
+  				<li><a href="#step-2">
+                <span class="stepNumber">2</span>
+                <span class="stepDesc">
+                   音频资料<br />
+                   <small>Step 2 description</small>
+                </span>
+            </a></li> <!--切换标签2-end-->
+            	 <!--切换标签3-->
+  				<li><a href="#step-3">
+                <span class="stepNumber">3</span>
+                <span class="stepDesc">
+                   视频资料<br />
+                   <small>Step 3 description</small>
+                </span>                   
+             </a></li> <!--切换标签3-end-->
+             	 <!--切换标签4-->
+  				<li><a href="#step-4">
+                <span class="stepNumber">4</span>
+                <span class="stepDesc">
+                   照片<br />
+                   <small>Step 4 description</small>
+                </span>                   
+            </a></li> <!--切换标签4-end-->
+            	 <!--切换标签5-->
+            <li><a href="#step-5">
+                <span class="stepNumber">5</span>
+                <span class="stepDesc">
+                  其他<br />
+                   <small>Step 5 description</small>
+                </span>                   
+            </a></li> <!--切换标签5-end-->
+  			</ul>
+            
+            <!--页卡1-->
+  			<div id="step-1">	
+  			 <@my.list id="data" hql="from SaveItem s where s.itemId=${(itemId!'')}">
+            	<div class="main_xx">
+                        <ul>
+                        <input name="itemId" type="hidden" value ="${(data.itemId!'')}"/>
+                            <li><span>项目名称：</span><input maxlength="50" id="names" name="saveItemName" type="text" value ="${(data.itemName!'')}"/></li>
+                            <li><span>项目类型：</span>
+                                    <select id="saveItemType" name="saveItemType" style=" width:422px;">
+                                                  <@my.list id="data" hql="from DataDict s where s.type ='SAVE_TYPE' and s.code ='${(type!'')}'">
+                                                  	<option value="${(data.code!'')}">${(data.name!'')}</option>
+                                                  </@my.list>
+                                                  <@my.list id="data" hql="from DataDict s where s.type ='SAVE_TYPE'">
+                                                  	<option value="${(data.code!'')}">${(data.name!'')}</option>
+                                                  </@my.list>
+                                            </select></li>
+                           <li><span>批次：</span>	
+                                 <select id="declarationBatch" name="declarationBatch" style=" width:422px;">
+                                           <@my.list id="data" hql="from DataDict s where s.type ='BATCH' and s.code ='${(batch!'')}'">
+                                                  	<option value="${(data.code)!''}">${(data.name!'')}</option>
+                                                  </@my.list>
+                                          <@my.list id="data" hql="from DataDict s where s.type ='BATCH'">
+                                              	<option value="${(data.code)!''}">${(data.name!'')}</option>
+                                            </@my.list>
+                                      </select></li>
+                            <li><span>所在地：</span>
+                                    <select id="itemAddress" name="itemAddress" style=" width:422px;">
+                                               <@my.list id="data" hql="from DataDict s where s.type ='AREA' and s.code ='${(AREA!'')}'">
+                                                  	<option value="${(data.code)!''}">${(data.name!'')}</option>
+                                                  </@my.list>
+                                                 <@my.list id="data" hql="from DataDict s where s.type ='AREA'">
+                                                  	<option value="${(data.code)!''}">${(data.name!'')}</option>
+                                                </@my.list>
+                                          </select></li>
+                        </ul>
+                      </div>
+        </div><!--页卡1-end-->
+        
+        	<!--页卡2-->
+  			<div id="step-2">
+           <div class="main_page2" > 		
+                          <ul>
+                          <input type="file" class="cre_input" id="uploadifyfile_icon" name="uploadifyfile_icon"  value="开始上传"/>
+                   			<script type="text/javascript" src="web/js/filesUpload/audio.js"></script>
+                              <div  id="audio" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+                              <div class="tab_content ">
+                               <table width="100%"  id="tab_a">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                       <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">保存名称</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                                       <@my.list id="f" sql="SELECT * FROM files  A WHERE EXISTS (SELECT FILE_ID FROM save_item_files S WHERE S.ITEM_ID='${(itemId!'')}' AND S.FILE_ID= A.FILE_ID) AND A.TYPE='audio' and a.business_type='saveData' order by A.create_date desc">
+                                        <tr class="cs1">
+                                        	<td>${(f.FILE_NAME!'')}</td>
+									        <td>${(f.FILE_NAME!'')}</td>
+									        <td>上传成功</td>
+									        <input type="hidden" name="fileName" value="${(f.FILE_NAME!'')}"/>
+									        <input type="hidden" name="fileUrl" value="${(f.FILE_URL!'')}'"/>
+									        <input type="hidden" name="type" value=audio />
+						        			<td class="cs2">
+						        				<a class="shanchu_2" title="删除" href="#" ></a></td>
+						        		 </tr>
+                                       </@my.list>
+                               </table>
+							</div>
+                            </ul>
+                      </div>
+        </div><!--页卡2-end--> 
+        	<!--页卡3-->             
+  			<div id="step-3">
+            <div class="main_page2" > 		
+                          	  <ul>
+                     <input type="file" class="cre_input" id="uploadifyfile_icon1" name="uploadifyfile_icon1"  value="开始上传"/>
+                     <script type="text/javascript" src="web/js/filesUpload/video.js"></script>
+                              <div  id="video" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+                              <div class="tab_content ">
+                               <table width="100%"  id="tab_a" class ="tab_aV">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                       <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">保存文件名</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                                         <@my.list id="f" sql="SELECT * FROM files  A WHERE EXISTS (SELECT FILE_ID FROM save_item_files S WHERE S.ITEM_ID='${(itemId!'')}' AND S.FILE_ID= A.FILE_ID) AND A.TYPE='video' and a.business_type='saveData' order by A.create_date desc">
+                                        <tr class="csV1">
+									        <td>${(f.FILE_NAME!'')}</td>
+									        <td>${(f.FILE_NAME!'')}</td>
+									        <td>上传成功</td>
+									        <input type="hidden" name="fileVideoName" value="${(f.FILE_NAME!'')}"/>
+									        <input type="hidden" name="fileUrlVideo" value="${(f.FILE_URL!'')}"/>
+									        <input type="hidden" name="typeVideo" value=video />
+						        			<td class="csV2">
+						        				<a class="shanchu_2 shanchu_V" title="删除" href="#" ></a></td>
+						        		 </tr>
+                                       </@my.list>
+                               </table>
+							</div>
+                            </ul>
+                      </div>
+        </div><!--页卡3-end-->
+        
+        <!--页卡4-->
+        <div id="step-4">
+           <div class="main_page2" > 		
+                          	  <ul>
+		                     <input type="file" class="cre_input" id="uploadifyfile_icon2" name="uploadifyfile_icon2"  value="开始上传"/>
+		                     <script type="text/javascript" src="web/js/filesUpload/img.js"></script>
+		                                <div  id="img" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+		                              <div class="tab_content ">
+		                               <table width="100%"  id="tab_a" class ="tab_aI">
+		                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+		                                       <tr>
+		                                          <th scope="col">文件名</th>
+		                                          <th scope="col">保存文件名称</th>
+		                                          <th scope="col">状态</th>
+		                                          <th scope="col">操作</th>
+		                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+		                                 <@my.list id="f" sql="SELECT * FROM files  A WHERE EXISTS (SELECT FILE_ID FROM save_item_files S WHERE S.ITEM_ID='${(itemId!'')}' AND S.FILE_ID= A.FILE_ID) AND A.TYPE='img' and a.business_type='saveData' order by A.create_date desc">
+                                        <tr class="csI1">
+									        <td>${(f.FILE_NAME!'')}</td>
+									         <td>${(f.FILE_NAME!'')}</td>
+									        <td>上传成功</td>
+									        <input type="hidden" name="fileImgName" value="${(f.FILE_NAME!'')}"/>
+									        <input type="hidden" name="fileUrlImg" value="${(f.FILE_URL!'')}"/>
+									        <input type="hidden" name="typeImg" value=img />
+						        			<td class="csI2">
+						        				<a class="shanchu_2 shanchu_I" title="删除" href="#" ></a></td>
+						        		 </tr>
+                                       </@my.list>
+		                               </table>
+									</div>
+                            </ul>
+                      </div>
+            </p>                			
+        </div><!--页卡4-end-->
+        
+        <!--页卡5-->
+        <div id="step-5">
+           <div class="main_page2"> 		
+                         <ul>
+		                     <input type="file" class="cre_input" id="uploadifyfile_icon3" name="uploadifyfile_icon3"  value="开始上传"/>
+		                     <script type="text/javascript" src="web/js/filesUpload/other.js"></script>
+		                             <div  id="other" style="width: 100px;height: 30px;margin-top: -30px;margin-left: 100px; display: none">
+		                              	上传中...<img src="web/images/de.gif" />
+		                              </div>
+		                              <div class="tab_content ">
+		                               <table width="100%"  id="tab_a" class ="tab_aO">
+		                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+		                                       <tr>
+		                                          <th scope="col">文件名</th>
+		                                          <th scope="col">保存名称</th>
+		                                          <th scope="col">状态</th>
+		                                          <th scope="col">操作</th>
+		                                        </tr>
+		                                        <@my.list id="f" sql="SELECT * FROM files  A WHERE EXISTS (SELECT FILE_ID FROM save_item_files S WHERE S.ITEM_ID='${(itemId!'')}' AND S.FILE_ID= A.FILE_ID) AND A.TYPE='other' and a.business_type='saveData' order by A.create_date desc">
+		                                  <tr class="csO1">
+									        <td>${(f.FILE_NAME!'')}</td>
+									        <td>${(f.FILE_NAME!'')}</td>
+									        <td>上传成功</td>
+									        <input type="hidden" name="fileOtherName" value="${(f.FILE_NAME!'')}"/>
+									        <input type="hidden" name="fileUrlOther" value="${(f.FILE_URL!'')}"/>
+									        <input type="hidden" name="typeOther" value=other />
+						        			<td class="csO2">
+						        				<a class="shanchu_2 shanchu_O" title="删除" href="#" ></a></td>
+						        		 </tr>
+						        		 </@my.list>
+		                               </table>
+									</div>
+                            </ul>
+                          <li class="tc mt20 mb40 w880 fl">
+                                  <input class="cre_input" name="" type="submit" value="提交"/>
+                          </li>
+                      </div>
+            </p>                			
+        </div><!--页卡5-end-->
+     </div><!--tab- end--> 	
+      </form>  
+      </@my.list>  
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#wizard1').smartWizard({transitionEffect:'fade',onFinish:onFinishCallback});
+	
+	$('#wizard2').smartWizard({transitionEffect:'slide',onFinish:onFinishCallback});
+	function onFinishCallback(){
+		//alert('Finish Called');
+	}     
+});
+</script>
+</html>

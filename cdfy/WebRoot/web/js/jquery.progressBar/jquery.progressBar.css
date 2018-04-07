@@ -1,0 +1,36 @@
+﻿.ibx-uc-utool-content {
+	width: 120px;
+	text-align: left;
+}
+
+.ibx-uc-utool-rank {
+	display: block;
+	width: 120px;
+	height: 14px;
+	padding: 1px;
+	border: solid 1px #84cfff;
+	text-decoration: none;
+	position: relative;
+	text-align:left !important;
+}
+
+.rank-bg {
+	display: inline-block;
+	background-color: #84cfff;
+	height: 14px;
+	width: 0%;
+	transition: width .6s ease-in;
+	-webkit-transition: width .6s ease-in;
+}
+
+.rank-num {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #1992fc;
+	font-size: 10px;
+	line-height: 14px;
+	height: 14px;
+}

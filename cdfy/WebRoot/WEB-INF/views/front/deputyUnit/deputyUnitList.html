@@ -1,0 +1,182 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+<script type="text/javascript">
+function selData()
+{
+	var con=$("#searchValue").val();
+	window.location.href="${contextPath}/deputyUnitList.do?deputyItemName="+con;
+}
+</script>
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<div class="search_c mt50 w fldis">
+        	<div class="fldis mr50">
+        	<img src="web/images/logo_2.png" /></div>
+            <div class="fldis mt10">
+            <input id="searchValue" value="${(deputyItemName!'')}" name="" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:38px; float:left; display:block" />
+             <input name="" type="button" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat; float:left; display:block" onclick="selData();"/></div>
+        </div><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>传承单位</span>
+        	<#if USER.role=="manager">
+        	<a class="new_pr" href="createDeputyUnit.do"> 新 建 </a>
+        	</#if>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="mainbody_a mb25 w">
+        		<div class="title_a h35 w fb f14"><span>选择条件</span></div>
+                <div class="elect">
+                	<ul>
+                    	<li class="con_a">类型：</li>
+                        <li class="con_b">
+                            <a href="deputyUnitList.do?itemType=&gard=${(gard!'')}&batch=${(batch!'')}&area=${(area!'')}&deputyItemName=${(deputyItemName!'')}" <#if !itemType?? || itemType==''>class="chose"</#if> >不限</a>
+                            <@my.list id="search" hql="from DataDict s where s.type ='UNIT_TYPE' " >
+                            <a <#if itemType?? && itemType=='${search.code!}'>class="chose"</#if> href="deputyUnitList.do?itemType=${(search.code!'')}&deputyItemName=${(deputyItemName)!''}">${(search.name!'')}</a>
+                           </@my.list>
+                    </ul>
+                    <ul>
+                        <li class="con_a">级别：</li>
+                        <li class="con_b">
+                            <a href="deputyUnitList.do?itemType=${(itemType!'')}&gard=&batch=${(batch!'')}&area=${(area!'')}&deputyItemName=${(deputyItemName!'')}" <#if !gard??||gard==''>class="chose"</#if> >不限</a>
+                           <@my.list id="search" hql="from DataDict s where s.type ='GARD' " >
+                            <a <#if gard?? && gard=='${search.code!}'>class="chose"</#if> href="deputyUnitList.do?itemType=${(itemType!'')}&gard=${(search.code!'')}&deputyItemName=${(deputyItemName)!''}">${(search.name!'')}</a>
+                            </@my.list>
+                            </li>
+                      </ul>
+                     <ul>
+                         <li class="con_a">批次：</li>
+                        <li class="con_b">
+                             <a href="deputyUnitList.do?itemType=${(itemType!'')}&gard=${(gard!'')}&batch=&area=${(area!'')}&deputyItemName=${(deputyItemName!'')}" <#if !batch??||batch==''>class="chose"</#if>>不限</a>
+                             <@my.list id="search" hql="from DataDict s where s.type ='BATCH' " >
+                             <a <#if batch?? && batch=='${search.code!}'>class="chose"</#if> href="deputyUnitList.do?itemType=${(itemType!'')}&gard=${(gard!'')}&batch=${(search.code!'')}&deputyItemName=${(deputyItemName)!''}">${(search.name!'')}</a>
+                             </@my.list>
+                           </li>
+                       </ul>
+                        <ul>
+                          <li class="con_a">地区：</li>
+                          <li class="con_b">
+                                <a href="deputyUnitList.do?itemType=&gard=${(gard!'')}&batch=${(batch!'')}&area=&deputyItemName=${(deputyItemName!'')}" <#if !area??||area==''>class="chose"</#if> >不限</a>
+                                <@my.list id="search" hql="from DataDict s where s.type ='AREA' " >
+                                <a <#if area?? && area=='${search.code!}'>class="chose"</#if> href="deputyUnitList.do?itemType=${(itemType!'')}&gard=${(gard!'')}&batch=${(batch!'')}&area=${(search.code!'')}&deputyItemName=${(deputyItemName)!''}">${(search.name!'')}</a>
+                                </@my.list>
+                                </li>
+                            </ul>
+                             <div class="clearfloat"></div>
+                      </div>
+        		</div>
+        <div class="create mt10 tc f14 fb">查询结果
+        </div>
+         <div class="mainbody_b mb100 tc w">
+         <div class="tit_content ">
+                	
+        			<table width="100%" id="tab_a">
+                    		<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整，下面是例子。-->
+                          <tr>
+                            <th scope="col">传承单位名称</th>
+                            <th style="width:15%" scope="col">所属项目</th>
+                            <th style="width:15%">传承单位类型</th>
+                            <th scope="col">级别</th>
+                            <th scope="col">申报批次</th>
+                            <th scope="col">所在地</th>
+                            <th style="width:15%" scope="col">保护单位</th>
+                            <#if USER.role=="manager">
+                           <th scope="col">操作</th>
+                           </#if>
+                          </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                    
+                    <#assign hql="from DeputyUnit s where 1=1 " />
+                    
+                    <#if !itemType?? || itemType == ''>
+	               		<#assign hql= hql  />
+	               	</#if>
+	               	
+	               	 <#if itemType?? && itemType != ''>
+	               		<#assign hql= hql +  "and s.deputyUnitType ='${(itemType!'')}' "  />
+	               	</#if>
+	               	
+	               	
+	               	<#if !batch?? || batch == ''>
+	               		<#assign hql= hql  />
+	               	</#if>
+	               	
+	               	<#if batch?? && batch != ''>
+	               		<#assign hql= hql +  "and s.deputyUnitBatch=${(batch!'')}"  />
+	               	</#if>
+	               	
+	            	<#if !gard?? || gard == ''>
+	               		<#assign hql= hql  />
+	               	</#if>
+	               	
+	               	<#if gard?? && gard != ''>
+	               		<#assign hql= hql +  "and s.deputyUnitGrade=${(gard!'')} "  />
+	               	</#if>
+	               	
+	               	
+	               	<#if !area?? || area == ''>
+	               		<#assign hql= hql  />
+	               	</#if>
+	               	
+	               	
+	               	<#if area?? && area != ''>
+	               		<#assign hql= hql +  "and s.itemAddress=${(area!'')}"  />
+	               	</#if>
+	               	
+	               	<#if !deputyItemName?? || deputyItemName == ''>
+	               		<#assign hql= hql  />
+	               	</#if>
+	               	
+	               	
+	               	<#if deputyItemName?? && deputyItemName != ''>
+	               		<#assign hql= hql +  "and s.deputyUnitName like '%${(deputyItemName!'')}%'"  />
+	               	</#if>
+	               	
+	               	<#assign hql= hql +  "ORDER BY s.createDate desc"  />      
+                   
+              		<@my.pager id="page" hql="${hql}" size="${pageSize!9}" page="${pageNo!1}" />
+			  		<#list (page.list)! as t>
+                          <tr>
+                            <td><a href="deputyUnitById.do?deputyUnitId=${(t.deputyUnitId!'')}&deputyUnitType=${(t.deputyUnitType!'')}">${(t.deputyUnitName)!''}</a></td>
+                            <td><a href="deputyItemByItemId.do?deputyItemId=${(t.deputyItem.deputyItemId)!''}">${(t.deputyItem.deputyItemName)!''}</a></td>
+                            <td><@my.list id="data" hql="from DataDict s where s.code ='${(t.deputyUnitType!'')}' and s.type ='UNIT_TYPE'">${(data.name)!''}</@my.list></td>
+                            <td><@my.list id="data" hql="from DataDict s where s.code ='${(t.deputyUnitGrade!'')}' and s.type ='GARD'">${(data.name)!''}</@my.list></td>
+                            <td><@my.list id="data" hql="from DataDict s where s.code ='${(t.deputyUnitBatch!'')}' and s.type ='BATCH'">${(data.name)!''}</@my.list></td>
+                            <td><@my.list id="data" hql="from DataDict s where s.code ='${(t.itemAddress!'')}' and s.type ='AREA'">${(data.name)!''}</@my.list></td>
+                            <td>${(t.deputyItem.protectionUnit!'')}</td>
+                           <#if USER.role=="manager">
+                           <td>
+                           
+                          <#if t.deputyUnitGrade !="01">
+                            	<a class="shenbao" title="申报" href="applyDeputyUnitPage.do?deputyUnitId=${(t.deputyUnitId!'')}&deputyUnitGard=${(t.deputyUnitGrade!'')}"></a>
+                          </#if>
+                           		<a class="xiugai_2" title="修改" href="updateDeputyUnitPage.do?deputyUnitId=${(t.deputyUnitId!'')}&deputyUnitGard=${(t.deputyUnitGrade!'')}"></a>
+                                <a class="shanchu_2" title="删除" onclick="if(confirm('确认删除吗？')){location.href='deleteDeputyUnit.do?deputyUnitId=${(t.deputyUnitId)!''}'}" href="###"></a>
+                            </td>
+                            </#if>
+                          </tr>
+                           </#list>
+                        </table>
+				</div>
+
+                 <!--分页-->
+                  <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/deputyUnitList.do?pageNo=:pageNo&itemType=${(itemType!'')}&gard=${(gard!'')}&batch=${(batch!'')}&area=${(area!'')}&deputyItemName=${(deputyItemName)!''}"/>
+	               	</#if> <!--分页END-->
+        </div>
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

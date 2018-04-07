@@ -1,0 +1,8 @@
+ <!--选中状态需要给a标签加样式：a_chose-->
+                   	<li><a <#if type=="desc"> class="a_chose" </#if> href="getPersonInfo.do?deputyPersonId=${(deputyPersonId)!''}&type=desc">个人简介</a></li>
+                    <li><a <#if type=="img"> class="a_chose" </#if> href="getPersonImg.do?deputyPersonId=${(deputyPersonId)!''}&type=img">相关照片</a></li>
+                    <li><a <#if type=="video"> class="a_chose" </#if> href="getPersonVideo.do?deputyPersonId=${(deputyPersonId)!''}&type=video">视频资料</a></li>
+                    <li><a <#if type=="audio"> class="a_chose" </#if> href="getPersonAudio.do?deputyPersonId=${(deputyPersonId)!''}&type=audio">录音资料</a></li>
+                    <li><a <#if type=="text"> class="a_chose" </#if> href="getPersonText.do?deputyPersonId=${(deputyPersonId)!''}&type=text">文本资料</a></li>
+                    <li><a <#if type=="life"> class="a_chose" </#if> href="getPersonLife.do?deputyPersonId=${(deputyPersonId)!''}&type=life">口述吏、传记</a><!--左边内容END-->
+        <!--右边内容-->         </li>

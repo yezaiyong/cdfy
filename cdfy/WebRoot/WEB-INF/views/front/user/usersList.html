@@ -1,0 +1,73 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部-->
+	<#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>管理员权限</span>&gt;<span>创建用户</span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<#include "../managerLeft.html"/>
+        </div><!--左边内容END-->
+        <!--右边内容-->
+         <div class="mainbody_right">
+         	<div class="right_title">用户管理</div>
+            
+            <div class="right_content">
+            
+                <!--项目详情-->
+            	<div class="user_management">
+                	 <div class="main_ti_b">
+              			 <span >姓名</span>
+               			 <span>性别</span>
+                         <span>权限</span>
+                         <span>登录名</span>
+                         <span>密码</span>
+                         <span  class="tit">操作</span>
+              <table id="order">
+              		<#assign hql="from Users s where s.userName !='admin' and stauts='y' order by createDate desc " />
+              		<@my.pager id="page" hql="${hql}" size="${pageSize!9}" page="${pageNo!1}" />
+			  		<#list (page.list)! as t>
+              		<tr>
+                    <td ><input class="span" type="text" readonly="readonly" value="${(t.name)!''}"></td>
+                    <td ><input class="span" type="text" readonly="readonly" value="<#if t.sex=="1">男<#else>女</#if>"></td>
+                    <td ><input class="span" type="text" readonly="readonly" value="<#if t.role=="manager">管理员<#elseif t.role=="highgrade">高级用户<#else>普通用户</#if>"></td>
+                    <td ><input class="span" type="text" readonly="readonly" value="${(t.userName)!''}"></td>
+                    <td ><input class="span" type="text" readonly="readonly" value="******"></td>
+                    <td  class="w220">
+                    <input name="row" class="btn" type="button" value="删除" onclick="if(confirm('您确认要删除该用户吗？')){location.href='deleteUser.do?id=${(t.id!'')}'}">
+                    </td>
+                    </tr>
+                    </#list>
+              </table></div>
+                <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/usersList.do?pageNo=:pageNo"/>
+	               	</#if> 
+              </div>
+                      
+            </div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

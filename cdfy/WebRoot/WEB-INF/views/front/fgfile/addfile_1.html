@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link rel="stylesheet" type="text/css" href="web/css/jcDate.css" media="all" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/js/jquery.min.js"></script>
+<script type="text/javascript" src="web/js/jQuery-jcDate.js"></script>
+<script type="text/javascript" src="web/js/tab.js"></script>
+<script src="web/js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.methods.js" type="text/javascript"></script>
+<script src="web/js/main.js" type="text/javascript"></script>
+<style>
+label.error{
+	width:100px;
+	height:30px;
+	font-size:12px;
+	color:red;
+	text-align:center;
+	line-height:30px;
+	padding-left:10px;
+	position:absolute;
+	top:-30px;
+	left:10px;
+}
+label.validateError {
+width: auto;
+height: 30px;
+font-size: 12px;
+color: red;
+text-align: center;
+line-height: 25px;
+padding-left: 10px;
+}
+input.error ,select.error,textarea.error{
+	border:1px solid red !important;
+}
+div.erro{
+position:relative;
+width:175px;
+float:left;
+}
+
+</style>
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="${contextPath}/faguiFiles_List.do?type1='申报与公布文件'">法规与文件</a>&gt;<span>新建法规与文件</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create_a tc"><a href="toAddFgfile.do?type=''">新建申报与公布文件</a><a style="background-color:#999" href="toAddFgfile.do?type='法律法规文件'">新建政策与法规文件</a>
+        </div>
+        <div class="mainbody mb100 w ">
+       		 <!--选项卡-->
+             	 <!--tab-->
+       		<div id="wizard2" class="swMain">
+  			<ul>
+            	 <!--切换标签1-->
+  				<li><a href="#step-1">
+                <span class="stepNumber">S</span>
+                <span class="stepDesc">
+                   申报、公布<br />
+                   <small>insert</small>
+                </span>
+            </a></li> <!--切换标签1-END-->
+            	
+  			</ul>
+            
+            <!--页卡1-->
+  			<div id="step-1">	
+  			<form id="validateForm" action="addFgfiels.do" enctype="multipart/form-data" method="post">
+  			<input name="type" type="hidden" value="申报与公布文件 "/>
+            	<div class="main_xx" id="tab1">
+                                <ul>
+                                    <li><span>名称：</span><input name="textFilesName" maxlength="50" type="text" validate="{required:true ,messages:{required:'*请输入名称'}}" /></li>
+                                    <li><span>类别：</span>
+                                            <select name="category" style=" width:422px;">
+                                                  <option value="代表性项目">代表性项目</option>
+                                                  <option value="代表性传承人">代表性传承人</option>
+                                                  <option value="传承单位">传承单位</option>
+                                            </select></li>
+                                            <li><span>状态：</span>
+                                            <select name="state" style=" width:422px;">
+                                                  <option value="申报">申报</option>
+                                                  <option value="公布">公布</option>
+                                            </select></li>
+                                   <li><span>发文部门：</span><input name="department" maxlength="50" type="text" validate="{required:true ,messages:{required:'*请输入发文部门'}}" /></li>
+                                    <li><span>发文时间：</span><input class="jcDate" name="createDate" type="text" validate="{required:true ,messages:{required:'*请选择发文时间'}}" readonly="readonly" /></li>
+                                    <li><span>选择文件：</span><input  name="file" type="file" validate="{required:true ,messages:{required:'*请选择需要上传的文件'}}" /></li>
+  									 <li class="tc mt40 mb40 w fl">
+                                			 <input style="width:94px; height:33px; background:url(web/images/bot_bg1.png) no-repeat; color:#fff; font-size:14px; margin:0 80px 0 80px; cursor:pointer; border:0;" class="cre_input" type="submit" value=" 提 交 "/></li>
+                                </ul>
+                      </div>
+                   </form>
+        </div><!--页卡1-end-->
+        
+        	
+     </div>
+        	
+        	<!--<div class="tc mt30 mb30">
+            <input class="cre_input" name="" type="submit" value="下一步" onclick="location.href='create_project_next.html'"/>
+        </div>-->
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	//  Wizard 1  	
+	$('#wizard1').smartWizard({transitionEffect:'fade',onFinish:onFinishCallback});
+	
+	//  Wizard 2
+	$('#wizard2').smartWizard({transitionEffect:'slide',onFinish:onFinishCallback});
+	function onFinishCallback(){
+		alert('Finish Called');
+	}     
+});
+
+$(function (){
+	$("input.jcDate").jcDate({					       
+		IcoClass : "jcDateIco",
+		Event : "click",
+		Speed : 100,
+		Left : 0,
+		Top : 28,
+		format : "-",
+		Timeout : 100
+	});
+});
+</script>
+</html>

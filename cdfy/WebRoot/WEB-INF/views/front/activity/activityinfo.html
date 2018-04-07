@@ -1,0 +1,113 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+ 
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<span>${(activity.proActivitiesName)!''}</span>
+        </div><!--当前位置END-->
+         <!--内容主框架-->
+        <div class="main_big">
+        <!--左边内容-->
+         <div class="mainbody_left">
+        		<ul>
+                	<li class="btit">传承传播活动</li>
+                    <!--选中状态：样式：a_chose-->
+        			<#list list_pro as p>
+                    <li><a <#if activity.proActivitiesName==p.proActivitiesName>class="a_chose"</#if> href="get_proActivity.do?id=${p.proActivitiesId!}">${p.proActivitiesName!}</a></li><!--选中状态：样式：a_chose-->
+                    </#list>
+                </ul>
+                
+                
+                
+                
+        </div><!--左边内容END-->
+        <!--右边内容END-->
+         <div class="mainbody_right">
+         	<div class="right_title">${(activity.proActivitiesName)!''}（${aperiod.activitiesPeriodNum!}）</div>
+            <div class="show_content">
+                    	<div class="show_news_tit">新闻报道</div>
+                    	<div class="right_icon1"><#if USER.role =="manager"><a class="new_pr" href="toAddActivityNews.do?periodId=${aperiod.activitiesPeriodId!}">发布新闻</a></#if></div>
+                        <div class="show_news_nr">
+                        <ul class="p10">
+                        <#list aperiod.activitiesContents as per>
+                        	<li><a class="sa" href="showActivityNew.do?periodId=${aperiod.activitiesPeriodId!}&newId=${per.activitiesContentId!}">${per.activitiesContentTitle!}</a>
+                        		<span><#if USER.role =="manager"><a href="toUpdateActivityNews.do?periodId=${aperiod.activitiesPeriodId!}&newsId=${per.activitiesContentId!}">编辑</a><a href="javascript:delInfo_1(${per.activitiesContentId!});">删除</a></#if></span>
+                        	</li>
+                       	</#list>
+                        </ul>
+                        </div>
+                        <div class="show_photo_tit">精彩图片</div>
+                        <div class="right_icon1"><#if USER.role =="manager"><a class="new_pr" href="toAddActivityPhoto.do?periodId=${aperiod.activitiesPeriodId!}&activityId=${activity.proActivitiesId}">上传图片</a></#if></div>
+                        <div class="show_photo_nr">
+                        	<ul>
+                    	<!--循环实例-->
+                    		<#list aperiod.albums as album>
+		                    	<li>
+		                        <a style="float:left;" href="showPhotos.do?albumId=${album.albumId!}&activityId=${activity.proActivitiesId!}"><img width="95" height="79" src="web/images/bage.png" /></a>
+		                        <#if USER.role =="manager"><a  title="删除"  href="javascript:delInfo_2(${album.albumId!});" class="shanchu_3"></a></#if>
+		                        <p style="margin-left: -25px;">${album.albumName!}</p>
+		                        </li>
+		                    </#list>
+                    		</ul>
+                        </div>
+                        <div class="show_video_tit">视频资料</div>
+                        <div class="right_icon1"><#if USER.role =="manager"><a class="new_pr" href="toAddActivityVideo.do?periodId=${aperiod.activitiesPeriodId!}&activityId=${activity.proActivitiesId}">上传视频</a></#if></div>
+                        <div class="show_video_nr">
+                        	<ul>
+                    	<!--循环实例-->
+	                    	<#list video_list as vl>
+		                    	<li>
+		                        <a href="tovideoPlay.do?periodId=${aperiod.activitiesPeriodId!}&fileId=${vl.FILE_ID!}"><img width="160" height="135" src="web/images/video_img.png" /><b class="play"></b></a>
+		                        <p>片名：${vl.FILE_NAME!}</p>
+		                         <#if USER.role =="manager"><input type="button" onclick="javascript:delInfo_3('${vl.FILE_ID!}');" value="删除"/></#if>
+		                        </li>
+	                        </#list>
+                        </ul>
+                        </div>
+            </div>
+         </div><!--右边内容END-->
+        </div> <!--内容主框架END-->
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+<script type="text/javascript">
+function delInfo_1(id)
+{
+	if(confirm("确认删除新闻吗？"))
+	{
+		window.location.href='delActivityPeriod_detailinfo.do?id='+id+'&delType=news_del';
+	}
+}
+function delInfo_2(id)
+{
+	if(confirm("确认删除相册吗？"))
+	{
+		window.location.href='delActivityPeriod_detailinfo.do?id='+id+'&delType=album_del';
+	}
+}
+function delInfo_3(id)
+{
+	if(confirm("确认删除视频吗？"))
+	{
+		window.location.href='delActivityPeriod_detailinfo.do?id='+id+'&delType=video_del';
+	}
+}
+</script>
+</html>
+

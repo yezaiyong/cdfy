@@ -1,0 +1,289 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<link rel="stylesheet" type="text/css" href="web/swfupload/Script/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="web/js/fancybox/jquery.fancybox.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/swfupload/Script/jquery.uploadify.js"></script>
+</head>
+<script>
+$(function(){
+	$(".shanchu_2").live('click',function(){
+		$(this).parent(".cs2").parent(".cs1").fadeOut('slow',function(){
+    	$(this).remove();
+    	});
+	});
+})
+</script>
+<body>
+	<!--头部-->
+	<#include "../top.html"/><!--头部END-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<div class="search_c mt50 w fldis">
+        	<div class="fldis mr50">
+        	<img src="web/images/logo_2.png" /></div>
+            <div class="fldis mt10">
+            <input name="" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:38px; float:left; display:block" />
+             <input name="" type="button" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat; float:left; display:block" /></div>
+        </div><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="home_page.html">首页</a>&gt;<span>新建项目</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">新建项目
+        </div>
+        <div class="mainbody mb100 w ">
+       		 <!--选项卡-->
+             	<div style="width:810px;margin:40px auto 0 auto;">
+                	<!--页卡控制-->
+                    <ul id="tabs">
+                        <li><a href="#" name="#tab1">基本资料</a></li>
+                        <li><a href="#" name="#tab2">申报书</a></li>
+                        <li><a href="#" name="#tab3">申报片</a></li>
+                        <li><a href="#" name="#tab4">照片</a></li>
+                        <li><a href="#" name="#tab5">其他</a></li> 
+                        <li><a href="#" name="#tab6">完成</a></li>
+                    </ul><!--页卡控制结束-->
+                    <form action="save.do" method="post">
+                  <div id="content">
+                  		<!--选项卡1内容-->
+                          <div class="main_xx" id="tab1">
+                                <ul>
+                                    <li><span>项目名称：</span><input name="deputyItemName" type="text" /></li>
+                                    <li><span>项目类型：</span>
+                                            <select name="deputyItemType" style=" width:422px;">
+                                                  <option value="0">-请选择-</option>
+                                                  <@my.list id="data" hql="from DataDict s where s.type ='ITEM_TYPE'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                  </@my.list>
+                                            </select></li>
+                                    <li><span>项目等级：</span>
+                                            <select name="deputyItemGrade" style=" width:422px;">
+                                                <option value="0">-请选择-</option>
+                                                <@my.list id="data" hql="from DataDict s where s.type ='GARD'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select></li>
+                                    <li><span>项目编号：</span>
+                                            <select class="list_a" name="deputyItemNo"/>
+                                                <option value="I-">I-</option>
+                                                <option value="II-">II-</option>
+                                                <option value="III-">III-</option>
+                                                <option value="IV-">IV-</option>
+                                                <option value="V-">V-</option>
+                                                <option value="VI-">VI-</option>
+                                                <option value="VII-">VII-</option>
+                                                <option value="VIII-">VIII-</option>
+                                                <option value="IX-">IX-</option>
+                                                <option value="X-">X-</option>
+                                          </select>
+                                          <input class="list_b" name="deputyItemNumber" type="text" /></li>
+                                    <li><span>申报批次：</span>	
+                                            <select name="declarationBatch" style=" width:422px;">
+                                                <option value="0">-请选择-</option>
+                                              <@my.list id="data" hql="from DataDict s where s.type ='BATCH'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select></li>
+                                    <li><span>所在地：</span>
+                                            <select name="itemAddress" style=" width:422px;">
+                                                <option value="0">-请选择-</option>
+                                                 <@my.list id="data" hql="from DataDict s where s.type ='AREA'">
+                                                  	<option value="${(data.code)!''}">${(data.name)!''}</option>
+                                                </@my.list>
+                                          </select></li>
+                                    <li><span>保护单位：</span><input name="protectionUnit" type="text" /></li>
+                                    <li><span>项目简介：</span><textarea name="remark" cols="" rows=""></textarea></li>
+                                </ul>
+                      </div><!--选项卡1内容结束-->
+                      <!--选项卡2内容-->
+                    <div class="main_page2" id="tab2"> 		
+                          <ul>
+                          <input type="file" class="cre_input" id="uploadifyfile_icon" name="uploadifyfile_icon"  value="开始上传"/>
+		                     <script type="text/javascript">
+						$(function() {
+							$("#uploadifyfile_icon").uploadify( {
+								 'method'   : 'Get',
+								'swf' : '${contextPath}/web/swfupload/Script/uploadify.swf',
+								'queueID' : 'fileQueue_icon',
+								'uploader' : '${contextPath}/uploadFiles.do?authcode=${(authcode)!}',
+								'fileSizeLimit' : 50 * 1024 * 1024,
+								'fileTypeExts' : '*.jpg;*.png;*.gif',
+								'fileTypeDesc' : '请选择文件',
+								'uploadLimit' : 20,
+								'height' : 38,
+								'width' : 100,
+								'auto' : true,
+								'multi' : true,
+								'removeCompleted' : true,
+								'buttonImage' : 'web/images/xuanze.png',
+								'overrideEvents' : [ 'onUploadSuccess' ],
+								
+								'onUploadSuccess' : function(file, data, response){
+									var ret = eval("(" + data + ")");
+									filesTo(ret.obj[0],file.id);
+								},
+								'onUploadError' : function(file, errorCode, errorMsg, errorString){
+									//$("#" + file.id).find(".data").html(errorMsg + ":" + errorString);
+								},
+								'onUploadStart' : function(file){
+									//alert("1");
+									//if ($('#' + file.id)) {
+									//	$("#" + file.id).find(".cancel").remove();
+									//}
+								},
+								'onQueueComplete' : function(){
+									//window.location.href="resource.do";
+									//$('#albumId').attr("disabled",false);
+								},
+								'onSelect' : function(){
+									//$("#finish").show();
+								}
+							});
+							
+							function filesTo(data,fileId){
+						    var html = "";
+						        html += '<tr class="cs1">'+
+									        '<td>'+data.fileName+'</td>'+
+									        '<td>上传成功</td>'+
+									        '<input type="hidden" name="fileUrl" value="'+data.filePath+'"/>'+
+									        '<input type="hidden" name="type" value=img />'+
+									        '<input type="hidden" name="businessType" value=deputy />'+
+						        			'<td class="cs2">'+
+						        				'<a class="shanchu_2" title="删除" href="#" ></a></td>'+
+						        		 '</tr>';
+						        $("#tab_a").append(html);
+						}
+							
+							/*$("#startUpload").click(function(){
+								$('#uploadifyfile_icon').uploadify('upload', '*');
+							})
+							
+							$("#resetUpload").click(function(){
+								$('#uploadifyfile_icon').uploadify('cancel', '*');
+							})*/
+							
+						});
+						</script>
+		                     <div class="tab_content ">
+                               <table width="100%"  id="tab_a" style="height: 400px; overflow:auto; ">
+                               				<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整。-->
+                                        <tr>
+                                          <th scope="col">文件名</th>
+                                          <th scope="col">状态</th>
+                                          <th scope="col">操作</th>
+                                        </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+                               </table>
+							</div>
+                          </ul>
+                            <li class="tc mt40 mb40 w800 fl">
+                                  <input class="cre_input" type="submit"  value="下一步"/>
+                                  </li>
+                      </div><!--选项卡2内容结束-->
+                      </form>
+                      <!--选项卡3内容-->
+                    <div class="main_page2" id="tab3"> 		
+                          	<ul>
+                            <li><span>级别：</span>
+                                            <select name="" style=" width:422px;">
+                                                <option value="国家级">国家级</option>
+                                                <option value="省级">省级</option>
+                                                <option value="市级">市级</option>
+                                          </select></li>
+                                          		添加的内容
+                            </ul>
+                            <li class="tc mt40 mb40 w800 fl">
+                                  <input class="cre_input" name="" type="submit" value="添加"/>
+                                 <input class="cre_input" name="" type="button" value="上传"/></li>
+                      </div><!--选项卡3内容结束-->
+                      <!--选项卡4内容-->
+                    <div class="main_page2" id="tab4"> 		
+                          	<ul>
+                            <li><span>级别：</span>
+                                            <select name="" style=" width:422px;">
+                                                <option value="国家级">国家级</option>
+                                                <option value="省级">省级</option>
+                                                <option value="市级">市级</option>
+                                          </select></li>
+                                          添加的内容
+                            </ul>
+                            <li class="tc mt40 mb40 w800 fl">
+                                  <input class="cre_input" name="" type="submit" value="添加"/>
+                                 <input class="cre_input" name="" type="button" value="上传"/></li>
+                      </div><!--选项卡4内容结束-->
+                      <!--选项卡5内容-->
+                    <div class="main_page2" id="tab5"> 		
+                         <ul>
+                            <li><span>级别：</span>
+                                            <select name="" style=" width:422px;">
+                                                <option value="国家级">国家级</option>
+                                                <option value="省级">省级</option>
+                                                <option value="市级">市级</option>
+                                          </select></li>
+                                          添加的内容
+                            </ul>
+                            <li class="tc mt40 mb40 w800 fl">
+                                  <input class="cre_input" name="" type="submit" value="添加"/>
+                                 <input class="cre_input" name="" type="button" value="上传"/></li>
+                      </div><!--选项卡5内容结束-->
+                      <!--选项卡6内容-->
+                    <div class="main_page2" id="tab6"> 		
+                            <li class="tc mt40 mb40 w800 fl">
+                                 <input class="cre_input" name="" type="button" value="点击提交" onclick="location.href='create_succeed.html'"/></li>
+                      </div><!--选项卡6内容结束-->
+  </div>
+
+</div>  <!--选项卡-->
+        	
+        	<!--<div class="tc mt30 mb30">
+            <input class="cre_input" name="" type="submit" value="下一步" onclick="location.href='create_project_next.html'"/>
+        </div>-->
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+function resetTabs(){
+	$("#content > div").hide(); //隐藏所有内容
+	$("#tabs a").attr("id",""); //重置“id”   
+}
+
+var myUrl = window.location.href; //取得超链地址
+var myUrlTab = myUrl.substring(myUrl.indexOf("#")); 
+var myUrlTabName = myUrlTab.substring(0,4);
+
+(function(){
+	$("#content > div").hide(); // 最初隐藏所有内容
+	$("#tabs li:first a").attr("id","current"); // 激活第一个选项卡
+	$("#content > div:first").fadeIn(); // 显示第一个选项卡的内容
+
+	$("#tabs a").on("click",function(e) {
+		e.preventDefault();
+		if ($(this).attr("id") == "current"){ //检测当前选项卡
+			return       
+		}else{             
+			resetTabs();
+			$(this).attr("id","current"); // 激活这
+			$($(this).attr('name')).fadeIn(); // 显示当前选项卡的内容
+		}
+	});
+
+	for (i = 1; i <= $("#tabs li").length; i++) {
+		if(myUrlTab == myUrlTabName + i){
+			resetTabs();
+			$("a[name='"+myUrlTab+"']").attr("id","current"); // 激活url选项卡
+			$(myUrlTab).fadeIn(); // 显示url选项卡内容      
+		}
+	}
+})()
+</script>
+</html>

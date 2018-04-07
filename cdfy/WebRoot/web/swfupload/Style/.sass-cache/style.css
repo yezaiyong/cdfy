@@ -1,0 +1,86 @@
+@charset "utf-8";
+* {
+  margin: 0px;
+  padding: 0px; }
+
+body {
+  font-size: 12px;
+  color: #61809d; }
+
+div, ul, li, dl, dd, dt {
+  list-style: none;
+  margin: 0px auto; }
+
+.upload_bg {
+  width: 99%;
+  height: 99%; }
+
+.upload_top {
+  width: 98%;
+  height: 40px; }
+
+.upload_Center {
+  width: 98%;
+  height: 28px;
+  line-height: 28px; }
+
+.upload_Bottom {
+  width: 98%;
+  height: 277px;
+  background-color: #FFF;
+  border: #a2c1e0 solid 1px; }
+
+.Content {
+  width: 100%;
+  height: 277px;
+  background: url(../images/dbj.jpg) repeat-x left bottom; }
+
+.Content_title {
+  width: 100%;
+  height: 21px;
+  border: 0px;
+  border-bottom: #a2c1e0 solid 1px;
+  background: url(../images/title_bg.jpg) repeat-x; }
+
+.Content_title ul li {
+  float: left;
+  border: 0px;
+  border-right: #a2c1e0 solid 1px;
+  padding-left: 5px;
+  line-height: 21px; }
+
+.Content_title ul .W400 {
+  width: 300px; }
+
+.Content_title ul .W200 {
+  width: 230px; }
+
+.Content_title ul .W49 {
+  width: 49px;
+  border-right: 0px; }
+
+.Content_Txt {
+  width: 100%;
+  height: 23px;
+  border: 0px; }
+
+.Content_Txt ul li {
+  float: left;
+  border: 0px;
+  padding-left: 5px;
+  height: 23px;
+  line-height: 23px; }
+
+.Content_Txt ul .W400 {
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+
+.Content_Txt ul .W200 {
+  width: 230px; }
+
+.Content_Txt ul .W49 {
+  width: 49px;
+  border-right: 0px; }
+

@@ -1,0 +1,98 @@
+<#include "inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${systemInfo}</title>
+<link rel="stylesheet" type="text/css" href="web/css/login.css" />
+<link rel="stylesheet" type="text/css" href="web/css/form-wizard.css" />
+</head>
+
+<body>
+    <!--主体框-->
+    <div class="main">
+    	<!--主体内容-->
+    	<div class="main_content">
+        	<div class="logo_name"><img width="750" height="64" src="web/images/logo_a.png" />
+            </div>
+            <div class="main_nr">
+            	<div class="main_biaoyu"></div>
+                <!--焦点图切换框架-->
+                <div class="fous_p">
+                	              <!--焦点图片-->
+                    		      <div id="slideBox">
+                                        <ul id="show_pic" style="left: -1060px; ">
+                                        <@my.list id="result" hql="from Files f where f.businessType='loginImg'">
+                                          <li><img alt="" title="" height="340" width="530" src="${result.fileUrl!}"></li>
+                                        </@my.list>
+                                        </ul>
+                                        <div id="slideText"></div>
+                                        <ul id="iconBall">
+                                          <li class="active">1</li>
+                                          <li class="">2</li>
+                                          <li class="">3</li>
+                                          <li class="">4</li>
+                                          <li class="">5</li>
+                                          <li class="">6</li>
+                                        </ul>
+                                        <ul id="textBall">
+                                        <@my.list id="result" hql="from Files f where f.businessType='loginImg'">
+                                          <li <#if result.type == '第1张'>class="active"</#if>><a href="javascript:void(0)">${result.fileName!}</a></li>
+                                         </@my.list>
+                                        </ul>
+                               </div><!--焦点图片END-->
+                </div><!--焦点图切换框架-->
+                <div class="xian"><img src="web/images/xian.png" /></div>
+                <!--登陆框-->
+                <form action="dologin.do" method="post">
+                <div class="login_b ">
+                	<input name="username" id ="username" type="text" class="input_name" value="请输入用户名" onFocus="this.value=''" onBlur="if(!value){value=defaultValue;}" />
+                    <input name="password" id="password" type="password" class="input_pw" /><br />
+                    <span class="spaner" id="spaner" style="color: red;"></span>
+                    <a href="" class="wjmm"></a>
+                    <input name="" id="login_btn" type="button" value="" class="input_bott" />
+                </div><!--登陆框-->
+                </form>
+            </div>
+        </div><!--主体内容结束-->
+    </div><!--主体框-->
+    <div style="width:100%;  height:30px; text-align:center; line-height:30px; float:left; color:#800000; font-size:15px; letter-spacing:1px;">承办单位：成都市非物质文化遗产保护中心</div>
+    
+</body>
+<script src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="web/js/fous.js"></script>
+<script type="text/javascript">
+ $('#login_btn').click(function(){
+ 			if($("#username").val()=='' ||$("#username").val()=='请输入用户名' ){
+ 				$('#spaner').html("用户名不能为空！");
+ 				return ;
+ 			}
+ 			if($("#password").val()==''){
+ 				$('#spaner').html("密码不能为空！");
+ 				return ;
+ 			}
+             $.ajax({
+                url: 'dologin.do',
+                type: 'POST',
+                timeout: 0,
+                async: true,
+                dataType: 'json',
+                data: {
+                    'username':$("input[name='username']").val(), 
+                    'password':$("input[name='password']").val()
+                },
+                success: function(data) {
+                    if (data.code == 200) {
+                        window.location.href='center.do';
+                    } else {
+                     	$('#spaner').html(data.msg);
+                    };
+                },
+                error: function() {
+                    alert('错误！')
+                }
+            });
+ 
+ });
+</script>
+</html>

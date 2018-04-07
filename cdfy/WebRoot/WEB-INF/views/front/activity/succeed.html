@@ -1,0 +1,40 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+           <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<a href="javascript:history.go(-1);"><span>操作</span></a>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc f12">成功
+        </div>
+        <div class="mainbody mb100 tc w">
+        	<div class="succeed">
+            	<div class="su_cont">
+                <span style="margin-left: 220px;">恭喜您，操作成功!</span>
+                </div>
+                <div class="ckxm">
+                <a href="javascript:history.go(-1);">返 回</a>
+                </div>
+            </div>
+        </div>
+    	<div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>

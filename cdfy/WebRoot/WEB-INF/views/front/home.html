@@ -1,0 +1,78 @@
+<#include "inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/home_page.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+</head>
+<script type="text/javascript">
+function selData()
+{
+	var type="${(type)!''}";
+	var url="";
+	if(type =="item" || type==""){
+		url="deputyItemList.do";
+	}else if(type =="save"){
+		url="saveItemList.do";
+	}else if(type =="person"){
+		url="deputyPersonList.do";
+	}else if(type =="unit"){
+		url="deputyPersonList.do";
+	}else if(type =="activiti"){
+		url="proActivity_list.do";
+	}else if(type =="video"){
+		url="YxResources_List.do";
+	}else if(type =="textFiles"){
+		url="faguiFiles_List.do";
+	}
+	var con=$("#searchValue").val();
+	window.location.href="${contextPath}/"+url+"?deputyItemName="+con;
+}
+</script>
+<body>
+	<!--头部-->
+	<#include "top.html"/><!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<div class="logo"><img src="web/images/logo.png" />
+        </div>
+        <!--搜索栏-->
+        <div class="search mt50">
+        	<div class="search_a">
+            	<!--写后台时注意，当前选中状态a标签样式为：chose，不要都成红色的了！！-->
+                <a <#if !type?? || type=="item">class="chose"</#if> href="homeSearch.do?type=item">代表性项目</a>
+                <a <#if type=="save">class="chose"</#if> href="homeSearch.do?type=save">保存资料项目</a>
+                <a <#if type=="person">class="chose"</#if> href="homeSearch.do?type=person">代表性传承人</a>
+                <a <#if type=="unit">class="chose"</#if> href="homeSearch.do?type=unit">传承单位</a>
+                <a <#if type=="activiti">class="chose"</#if> href="homeSearch.do?type=activiti">传承传播活动</a>
+                <a <#if type=="video">class="chose"</#if> href="homeSearch.do?type=video">音像资源</a>
+                <a <#if type=="textFiles">class="chose"</#if> href="homeSearch.do?type=textFiles">法规与文件</a>
+            </div>
+            <div class="search_b mt5">
+            	<div class="fl">
+            	<input name="" id="searchValue" value="${(deputyItemName!'')}" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:38px;" /></div>
+                <div class="fl">
+                <input name="" type="button" onclick="selData()" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat;" /></div>
+            </div>
+        </div><!--搜索栏结束-->
+        <!--选项-->
+        <div class="pickd">
+        	<ul>
+            	<#if USER.role =="manager">
+            	<li><a href="deputyItemPage.do" class="icon7a"><span>新建代表性项目</span></a></li>
+            	</#if>
+                <li><a href="deputyItemList.do" class="icon1a"><span>代表性项目</span></a></li>
+                <li><a href="saveItemList.do" class="icon2a"><span>保存资料项目</span></a></li>
+                <li><a href="deputyPersonList.do" class="icon3a"><span>代表性传承人</span></a></li>
+                <li><a href="deputyUnitList.do" class="icon8a"><span>传承单位</span></a></li>
+                <li><a href="proActivity_list.do" class="icon4a"><span>传承传播活动</span></a></li>
+                <li><a href="YxResources_List.do" class="icon5a"><span>音像资源</span></a></li>
+                <li><a href="faguiFiles_List.do" class="icon6a"><span>法规与文件</span></a></li>
+            </ul>
+        </div><!--选项结束-->
+    </div><!--主体结束-->
+</body>
+</html>

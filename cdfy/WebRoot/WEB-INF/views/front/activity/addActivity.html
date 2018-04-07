@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+var authcode="${authcode!''}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/create_project.css" />
+<link href="web/css/smart_wizard.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="web/css/style.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script src="web/js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="web/js/jquery/jquery.validate.methods.js" type="text/javascript"></script>
+<script src="web/js/main.js" type="text/javascript"></script>
+<style>
+label.error{
+	width:100px;
+	height:30px;
+	font-size:12px;
+	color:red;
+	text-align:center;
+	line-height:30px;
+	padding-left:10px;
+	position:absolute;
+	top:-30px;
+	left:10px;
+}
+label.validateError {
+width: auto;
+height: 30px;
+font-size: 12px;
+color: red;
+text-align: center;
+line-height: 25px;
+padding-left: 10px;
+}
+input.error ,select.error,textarea.error{
+	border:1px solid red !important;
+}
+div.erro{
+position:relative;
+width:175px;
+float:left;
+}
+
+</style>
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<#include "../search.html"/><!--搜索框结束-->
+        <!--当前位置-->
+     <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<a href="proActivity_list.do">传承传播活动</a>&gt;<span>新建展演活动</span>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="create tc">新建
+        </div>
+        <div class="mainbody mb100 w ">
+    	    <!--tab-->
+       		<div id="wizard2" class="swMain">
+             <!--页卡1-->
+  			<div id="step-1">	
+                  <form id="validateForm" action="addActivity_period.do" method="post">
+                    <div class="main_page2" >
+                                <ul>
+                                <li style="padding-left: 150px;"><span>选择活动：</span>
+                                            <select id="activity" name="activityId" style=" width:422px;" validate="{required:true ,messages:{required:'*请选择活动'}}">
+                                            <option value="">--请选择活动--</option>
+                                            <#list activityList as a>
+                                                <option name="vals"  <#if choseId?eval==a.proActivitiesId>selected="selected"</#if> value="${(a.proActivitiesId)!}">${(a.proActivitiesName)!}</option>
+                                            </#list>
+                                          </select><a class="btn btn-primary theme-login" style="margin-top: -3px;" href="javascript:;">新建活动</a></li>
+                                 	<!--新建相册弹出层-->
+	                              <div class="theme-popover-mask"></div>
+	                              <div class="theme-popover">
+	                                  <div class="theme-poptit">
+	                                      <a href="javascript:;" title="关闭" class="close">×</a>
+	                                      <h3>新建活动</h3>
+	                                  </div>
+	                                  <div class="theme-popbod dform">
+	                                  <div class="theme-signin">
+	                                          <ol>
+	                                              <li><strong>活动名称：</strong>
+	                                              <input class="ipt" type="text" name="log" value="" size="20" maxlength="50" id="activityName" />
+	                                              <input class="btn btn-primary" type="button" onclick="addActivity()" value=" 确 认 " /></li>
+	                                          </ol></div>
+	                                  </div>
+	                              </div><!--新建相册弹出层-->   
+                                          
+                             <li style="padding-left: 150px;"><br/><span>活动批次：</span><input style="width:420px; height:29px; display: inline;background-color:#eeeeee; border:1px solid #dcdcdc; font-size:12px; line-height:31px;color:#323131;" name="activitiesPeriodNum" maxlength="50" validate="{required:true ,messages:{required:'*请输入活动批次'}}" type="text" /></li>
+  									 <li class="tc mt40 mb40 w fl">
+  									 <input style="width:94px; height:33px; background:url(web/images/bot_bg1.png) no-repeat; color:#fff; font-size:14px; margin:0 80px 0 80px; cursor:pointer; border:0;" name="" type="button" onclick="javacript:history.go(-1);" value="返回"/>
+                                	<input style="width:94px; height:33px; background:url(web/images/bot_bg1.png) no-repeat; color:#fff; font-size:14px; margin:0 80px 0 80px; cursor:pointer; border:0;" type="submit" value=" 提 交 " /></li>
+                                </ul>
+                                    
+                      </div>  
+                   </form>  
+        </div><!--页卡1-end-->
+        
+     </div><!--tab- end--> 	
+    </div><!--主体结束-->
+    <div class="clearfloat"></div>
+   </div>
+</body>
+<script type="text/javascript">
+$(document).ready(function($){
+ 
+	$('.theme-login').click(function(){
+		$('.theme-popover-mask').show();
+		$('.theme-popover-mask').height($(document).height());
+		$('.theme-popover').slideDown(200);
+	})
+	$('.theme-poptit .close').click(function(){
+		$('.theme-popover-mask').hide();
+		$('.theme-popover').slideUp(200);
+	})
+ 
+});
+function addActivity()
+{
+	var activityName=$("#activityName").val();
+	if(activityName!=''&&activityName!=undefined)
+	{
+		$.ajax({
+					type:"post",
+					data:{'activityName':activityName},
+					dataType:"json",//返回json格式数据
+					url :"addActivity.do",
+					success:function(data){
+							alert("新建活动成功！");
+							window.location.href="toAddActivity.do?choseId="+data;	
+						},
+					failure:function(data)
+					{
+						alert("新建活动失败！");
+					}
+				});
+		}
+		else
+		{
+			alert("请填写活动名称！");
+		}
+}
+</script>
+</html>

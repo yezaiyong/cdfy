@@ -1,0 +1,194 @@
+<#include "../inc.html"/> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${system_info.name}</title>
+<script>
+var authcode="${authcode!''}";
+</script>
+<link rel="stylesheet" type="text/css" href="web/css/public.css" />
+<link rel="stylesheet" type="text/css" href="web/css/seek.css" />
+<script type="text/javascript" src="web/js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+function delRow(delId){
+	var r=confirm("确认删除吗？");
+    
+	 if (r==true)
+     {
+	 	$.post('delFgfiels.do?id='+delId,function(data){
+			if(data=='success')
+			{
+				window.location.reload();
+			}
+			else
+			{
+				alert("删除失败！");
+			}
+		});
+     }
+}
+function selData()
+{
+	var con=$("#condition").val();
+	window.location.href="${contextPath}/faguiFiles_List.do?deputyItemName="+con;
+}
+</script>
+</head>
+
+<body>
+	<!--头部-->
+	 <#include "../top.html"/>
+	<!--头部-->
+    <!--主体-->
+    <div class="main">
+    	<!--搜索框-->
+    	<div class="search_c mt50 w fldis">
+        	<div class="fldis mr50">
+        	<img src="web/images/logo_2.png" /></div>
+            <div class="fldis mt10">
+            <input id="condition" value="${deputyItemName!}" type="text" style="width:610px; height:38px;font-size:14px;border:1px solid #800000; padding-left:10px; line-height:38px; float:left; display:block" />
+             <input type="button" style=" width:102px; height:40px; margin-left:10px; cursor:pointer;background:url(web/images/sousuo.png) no-repeat; float:left; display:block" onclick="selData();" /></div>
+        </div><!--搜索框结束-->
+        <!--当前位置-->
+        <div class="weizhi mt30 w ">
+        	当前位置：<a href="center.do">首页</a>&gt;<span>法规与文件</span><#if USER.role =="manager"><a class="new_pr" href="toAddFgfile.do?type=${type1!''}" > 新 建 </a></#if>
+        </div><!--当前位置-->
+        <!--新建项目-->
+        <div class="mainbody_a mb25 w">
+        		<div class="title_a h35 w fb f14"><span>选择条件</span></div>
+                <div class="elect">
+                	<ul>
+                    	<li class="con_a">类型：</li>
+                        <li class="con_b">
+                            <!-- <a href="${contextPath}/faguiFiles_List.do"   <#if !type1??||type1==''>class="chose"</#if>>不限</a> -->
+                            <a  href="${contextPath}/faguiFiles_List.do?type1='申报与公布文件'&deputyItemName=${deputyItemName!}"   <#if !type1?? ||type1=='' || type1 == "'申报与公布文件'">class="chose"</#if>>申报与公布文件</a>
+                    		<a  href="${contextPath}/faguiFiles_List.do?type1='法律法规文件'&deputyItemName=${deputyItemName!}"   <#if type1?? && type1 == "'法律法规文件'">class="chose"</#if>>法律法规文件</a>
+                    	</li>
+                    </ul>
+                    <#if !type1?? ||type1=='' || type1 == "'申报与公布文件'">
+                             <ul>
+                          <li class="con_a">类别：</li>
+                          <li class="con_b">
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&deputyItemName=${deputyItemName!}"   <#if !type2??>class="chose"</#if> >不限</a>
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2='代表性项目'&deputyItemName=${deputyItemName!}"   <#if type2?? && type2 == "'代表性项目'">class="chose"</#if> >代表性项目</a>
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2='代表性传承人'&deputyItemName=${deputyItemName!}"   <#if type2?? && type2 == "'代表性传承人'">class="chose"</#if>>代表性传承人</a>
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2='传承单位'&deputyItemName=${deputyItemName!}"   <#if type2?? && type2 == "'传承单位'">class="chose"</#if>>传承单位</a>
+                           </li>
+                            </ul>
+                            <ul>
+                          <li class="con_a">状态：</li>
+                          <li class="con_b">
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2=${type2!}&deputyItemName=${deputyItemName!}"   <#if !state??>class="chose"</#if>>不限</a>
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2=${type2!}&state='申报'&deputyItemName=${deputyItemName!}"   <#if state?? && state=="'申报'">class="chose"</#if>>申报</a>
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&type2=${type2!}&state='公布'&deputyItemName=${deputyItemName!}"   <#if state?? && state=="'公布'">class="chose"</#if>>公布</a>
+                           </li>
+                            </ul>
+                      </#if> 
+                       <#if type1?? && type1 == "'法律法规文件'">
+                           <ul>
+                          <li class="con_a">级别：</li>
+                          <li class="con_b">
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&deputyItemName=${deputyItemName!}"   <#if !gard??>class="chose"</#if> >不限</a>
+                                <@my.list id="result" hql="from DataDict s where s.type IN ('GARD','INTER') ORDER BY createDate DESC">
+                                <a href="${contextPath}/faguiFiles_List.do?type1=${type1!}&gard='${(result.name)}'&deputyItemName=${deputyItemName!}" <#if gard?? && gard=="'${(result.name)}'">class="chose"</#if> >${(result.name)!''}</a>
+                                </@my.list>
+                           </li>
+                            </ul>
+
+                      </#if>    
+                    
+                             <div class="clearfloat"></div>
+                      </div>
+        		</div>
+        <div class="create mt10 tc f14 fb">查询结果
+        </div>
+         <div class="mainbody_b mb100 tc w">
+                <div class="tit_content ">
+	             	<#assign hql="from TextFiels t where 1=1 " />
+	             	
+	             	<#if !type1?? >
+	             	 <#assign hql= hql +  "and t.type='申报与公布文件' "  />
+	             	</#if>
+	               	
+	               	<#if type1?? && type1 != ''>
+	               	<#assign hql= hql +  "and t.type=${type1} "  />
+	               	</#if>
+	               	<#if type2?? && type2 != ''>
+	               	<#assign hql= hql +  "and t.category=${type2} "  />
+	               	</#if>
+	               	<#if state?? && state != ''>
+	               	<#assign hql= hql +  "and t.state=${state} "  />
+	               	</#if>
+	               	<#if gard?? && gard != ''>
+	               	<#assign hql= hql +  "and t.gard=${gard} "  />
+	               	</#if>
+	               	<#if deputyItemName?? && deputyItemName != ''>
+	               	<#assign hql= hql +  "and t.textFilesName like '%${deputyItemName}%' "  />
+	               	</#if>
+		            <#assign hql= hql +  "order by createDate desc"  />   	
+		            <@my.pager id="page" hql="${hql}" size="${pageSize!12}" page="${pageNo!1}" />
+                	<#if !type1?? ||type1=='' || type1 == "'申报与公布文件'">
+	        			<table width="100%" id="tab_a">
+	                    		<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整，下面是例子。-->
+	                          <tr>
+	                            <th style="width:30%" scope="col">名称</th>
+	                            <th scope="col">类型</th>
+	                            <th style="width:20%"scope="col">发文部门</th>
+	                            <th scope="col">发文时间</th>
+	                            <#if USER.role =="manager" || USER.role =="highgrade">
+	                           <th scope="col">操作</th>
+	                           </#if>
+	                          </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+						  		<#list (page.list)! as t>
+		                          <tr>
+		                            <td><a href="downTextFiels.do?id=${(t.textFilesId)!''}">${(t.textFilesName)!''}</a></td>
+		                            <td>${(t.type)!''}</td>
+		                            <td>${(t.department)!''}</td>
+		                            <td>${(t.createDate)!''}</td>
+		                            <#if USER.role =="manager" || USER.role =="highgrade">
+		                            <td>
+		                            	 <#if USER.role =="manager">
+		                               		 <a class="shanchu_2" title="删除" href="javascript:delRow(${(t.textFilesId)!})"></a>
+		                                 </#if>
+		                                <a class="xiazai_2" title="下载" href="downTextFiels.do?id=${(t.textFilesId)!''}"></a>
+		                             </td>
+		                            </#if>
+		                          </tr><!--循环实例END-->
+			                  </#list>
+	                        
+	                       </table>
+                       </#if>
+                         <#if type1?? && type1 == "'法律法规文件'">
+	                         <table width="100%" id="tab_a">
+	                    		<!--整个表格修改表头宽度即可，宽度修改示例：style="width:20%" 百分比自己调整，下面是例子。-->
+	                          <tr>
+	                            <th style="width:40%" scope="col">名称</th>
+	                            <th scope="col">文件级别</th>
+	                            <th scope="col">发文时间</th>
+	                           <th scope="col">操作</th>
+	                          </tr><!--宽度修改示例：style="width:20%" 百分比自己调整-->
+	                          <#list (page.list)! as t>
+		                          <!--循环实例开始-->
+		                          <tr>
+		                            <td><a href="downTextFiels.do?id=${(t.textFilesId)!''}">${(t.textFilesName)!''}</a></td>
+		                            <td>${(t.gard)!''}</td>
+		                            <td>${(t.createDate)!''}</td>
+		                            <td>
+		                                <a class="shanchu_2" title="删除" href="javascript:delRow(${(t.textFilesId)!})"></a>
+										<a class="xiazai_2" title="下载" href="downTextFiels.do?id=${(t.textFilesId)!''}"></a></td>
+		                          </tr><!--循环实例END-->
+		                        </#list>
+	                        </table>
+                         </#if>
+				</div>
+                 <!--分页-->
+                     <#if page.list?size gt 0 > 
+					<#import "../pager.html" as p>
+					<@p.pager pager=page baseUrl="${contextPath}/faguiFiles_List.do?pageNo=:pageNo&type1=${type1!}&type2=${type2!}&state=${state!}&deputyItemName=${deputyItemName!}"/>
+	               	</#if> 
+        </div>
+        <div class="clearfloat"></div>
+    </div><!--主体结束-->
+</body>
+</html>
