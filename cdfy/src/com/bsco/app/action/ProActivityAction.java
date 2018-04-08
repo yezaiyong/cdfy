@@ -154,7 +154,7 @@ public class ProActivityAction {
 	}
 	
 	/**
-	 * 删除活动
+	 * 删除活动11
 	 * @param activityName
 	 * @param request
 	 * @param response
